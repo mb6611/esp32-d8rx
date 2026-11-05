@@ -33,3 +33,7 @@ Thumbs.db
 
 # CI SDK checkout
 /.esp-idf/
+
+# Host package build outputs
+/host/build/
+*.egg-info/
