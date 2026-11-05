@@ -3,7 +3,13 @@
 This is an unofficial, modified fork of [ESPARGOS esp-sdr](https://github.com/ESPARGOS/esp-sdr)
 for the classic ESP32 DevKit V1 (CP2102 USB-UART, 921600 baud, receive only).
 See [NOTICE.md](NOTICE.md) for licensing and [docs/devkitv1/README.md](docs/devkitv1/README.md)
-for build, flash and host setup. The upstream README follows unchanged.
+for build, flash and host setup.
+
+**Write-up:** [A 2.4 GHz SDR on a $5 ESP32](docs/devkitv1/writeup/README.md), the story of getting gapless
+streaming, a live SDR++ view, Bluetooth and a FrSky D8 hopping link out of this board
+([HTML version](docs/devkitv1/writeup/index.html)).
+
+The upstream README follows unchanged.
 
 ---
 
