@@ -10,6 +10,15 @@
       "preview": false
     },
     {
+      "id": "esp32-devkitv1",
+      "target": "esp32",
+      "label": "ESP32 DevKit V1 (CP2102, 921600 baud)",
+      "idf_ref": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+      "allow_larger_flash": true,
+      "preview": false,
+      "sdkconfig": "sdkconfig.defaults.esp32-devkitv1"
+    },
+    {
       "id": "esp32c2",
       "target": "esp32c2",
       "label": "ESP32-C2 (26 MHz crystal, 2 MB or larger, UART)",

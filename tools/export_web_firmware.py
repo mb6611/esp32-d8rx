@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Export one ESP-IDF build as a versioned artifact for esp-web-sdr (stdlib only)."""
+# Modified by Matthew Banaag, 2026: profile id may differ from the chip target.
 import argparse
 from datetime import datetime
 import hashlib
@@ -37,7 +38,7 @@ def firmware_version(data):
         datetime.strptime(stamp, '%Y-%m-%dT%H:%M:%SZ')
         if value['build_date'] != stamp[:10] or not re.fullmatch(r'(?:[a-f0-9]{40}(?:-dirty)?|unknown)', value['revision']):
             raise ValueError('Invalid firmware metadata')
-        if not re.fullmatch(r'esp32[a-z0-9]*', value['profile']):
+        if not re.fullmatch(r'esp32[a-z0-9]*(?:-[a-z0-9]+)*', value['profile']):
             raise ValueError('Invalid firmware profile')
         return value
     except (KeyError, TypeError, UnicodeDecodeError, ValueError) as exc:

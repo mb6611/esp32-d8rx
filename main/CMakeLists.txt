@@ -71,9 +71,13 @@ idf_component_register(SRCS "${receiver}" ${sources}
 # is also the artifact exporter's source of revision and UTC build time.
 idf_build_get_property(version_python PYTHON)
 set(version_header "${CMAKE_CURRENT_BINARY_DIR}/generated/build_version.h")
+# Modified by Matthew Banaag, 2026: profile id may differ from the chip target.
+if(NOT DEFINED ESP_SDR_PROFILE)
+    set(ESP_SDR_PROFILE "${IDF_TARGET}")
+endif()
 add_custom_target(esp_sdr_build_version
     COMMAND "${version_python}" "${PROJECT_DIR}/tools/generate_version.py"
-        --root "${PROJECT_DIR}" --profile "${IDF_TARGET}" --output "${version_header}"
+        --root "${PROJECT_DIR}" --profile "${ESP_SDR_PROFILE}" --output "${version_header}"
     BYPRODUCTS "${version_header}"
     VERBATIM)
 add_dependencies(${COMPONENT_LIB} esp_sdr_build_version)

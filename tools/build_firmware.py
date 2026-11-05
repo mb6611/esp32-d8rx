@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build/export a catalog profile, or print the GitHub Actions build matrix."""
+# Modified by Matthew Banaag, 2026: profile id may differ from the chip target.
 import argparse
 import json
 import os
@@ -44,7 +45,7 @@ def main():
     command = [sys.executable, str(Path(sdk) / 'tools/idf.py')]
     if profile['preview']:
         command.append('--preview')
-    command += ['-C', str(ROOT), '-B', str(build), '-DIDF_TARGET=' + profile['target'],
+    command += ['-C', str(ROOT), '-B', str(build), '-DIDF_TARGET=' + profile['target'], '-DESP_SDR_PROFILE=' + profile['id'],
                 '-DSDKCONFIG=' + str(build / 'sdkconfig'),
                 '-DSDKCONFIG_DEFAULTS=' + str(ROOT / profile.get('sdkconfig', 'sdkconfig.defaults.' + profile['target'])),
                 '-DESP_SDR_STREAMING=' + ('ON' if profile.get('streaming') else 'OFF')]
