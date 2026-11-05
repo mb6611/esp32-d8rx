@@ -1,3 +1,12 @@
+# ESP32 DevKit V1 SDR (unofficial fork)
+
+This is an unofficial, modified fork of [ESPARGOS esp-sdr](https://github.com/ESPARGOS/esp-sdr)
+for the classic ESP32 DevKit V1 (CP2102 USB-UART, 921600 baud, receive only).
+See [NOTICE.md](NOTICE.md) for licensing and [docs/devkitv1/README.md](docs/devkitv1/README.md)
+for build, flash and host setup. The upstream README follows unchanged.
+
+---
+
 # ESP-SDR firmware
 
 <img src="docs/espargos-logo.png" width="40%" align="right" alt="ESPARGOS logo">
