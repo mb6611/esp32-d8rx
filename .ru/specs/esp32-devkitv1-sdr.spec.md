@@ -24,8 +24,8 @@ As the bench engineer I want to tune the board and grab I/Q bursts and spectra f
 
 ### US2 (P2) Continuous recording
 As the bench engineer I want a gapless narrowband I/Q stream for as long as I choose, so I can watch intermittent signals over time. Why P2: it's the new capability, but it depends on hardware feasibility.
-- `US2.1` GIVEN a stream at the highest rate the link sustains WHEN it runs 60 s THEN no samples are lost and any loss would be reported.
-- `US2.2` GIVEN a phone advertising BLE WHEN I stream at 2402 MHz THEN periodic bursts are visible.
+- `US2.1` GIVEN a stream at ≥31 kS/s complex, 8-bit I and Q WHEN it runs 60 s THEN zero samples are reported lost.
+- `US2.2` GIVEN a phone advertising BLE WHEN I stream at 2402 MHz THEN energy bursts repeating at the advertising interval are visible in the recording's spectrogram.
 
 ### US3 (P3) Live view
 As the bench engineer I want to see the stream live in gqrx or SDR++ and retune from there. Why P3: convenience on top of US2.
@@ -34,14 +34,15 @@ As the bench engineer I want to see the stream live in gqrx or SDR++ and retune 
 ## Requirements
 - `R1` THE SYSTEM SHALL build and flash **from a fresh clone with one documented command each**, using a pinned toolchain.
 - `R2` THE SYSTEM SHALL talk to the board **only through the DevKit's built-in USB-serial port**, at up to 921600 baud.
-- `R3` WHEN asked, THE SYSTEM SHALL tune anywhere the receiver locks in **about 1.85–2.5 GHz**, and SHALL report a lock failure instead of returning data.
-- `R4` THE SYSTEM SHALL capture **bursts at every rate and bit depth upstream supports on the ESP32**, with integrity checks on every transfer.
+- `R3` THE SYSTEM SHALL accept tuning requests **from 1850 to 2500 MHz inclusive** and refuse any outside that range. IF the receiver fails to lock THEN it SHALL report the lock failure instead of returning data.
+- `R4` THE SYSTEM SHALL capture **bursts at every rate and bit depth upstream supports on the ESP32** (80/40/16 MS/s; 8 and 10-bit), with integrity checks on every transfer. Device info SHALL list them.
 - `R5` THE SYSTEM SHALL save captures and streams as **SigMF**, recording centre frequency, sample rate, bit depth, gain/AGC state and the firmware version.
-- `R6` THE SYSTEM SHALL return samples with **correct I/Q orientation**: RF above the LO shows at positive frequency. Any upstream sign quirks are handled internally.
+- `R6` THE SYSTEM SHALL return samples with **correct I/Q orientation**: RF above the LO shows at positive frequency. Any upstream sign quirks are handled internally. Checked by tuning 10 MHz below an active Wi-Fi channel: its energy appears at +10 MHz.
 - `R7` IF a transfer fails its integrity check or times out THEN THE SYSTEM SHALL **report it and recover the link** without a manual board reset.
 - `R8` WHILE streaming, THE SYSTEM SHALL **account for every lost sample**, and SHALL report zero only when nothing was lost.
 - `R9` WHILE streaming, THE SYSTEM SHALL support **fine tuning in 1 kHz steps**.
 - `R10` THE SYSTEM SHALL work **with no hardware attached** for everything except talking to the board, and its tests SHALL run that way.
+- `R11` IF continuous capture is infeasible (`D4`) THEN THE SYSTEM SHALL show a **live waterfall from repeated on-board spectra**, refreshing at ≥5 Hz.
 
 ## Constraints & assumptions
 - `C1` Firmware is **adapted from ESPARGOS esp-sdr**, so the repo is **GPL-3.0-or-later**. Upstream attribution, the fork point, and the Apache-2.0 notices for third-party parts must ship with it.
@@ -53,13 +54,15 @@ As the bench engineer I want to see the stream live in gqrx or SDR++ and retune 
 - `D1` **Fork esp-sdr with full history** and keep upstream mergeable — because licensing, attribution and upstream fixes come for free, and the ESP32 streaming work could go back upstream. Rejected: copying just the ESP32 code (loses easy merges); submodule plus overlay (the changes sit inside upstream's main component).
 - `D2` **Stay wire-compatible with upstream's S3 stream format** — because existing upstream host tools, such as the third-party gqrx/SDR++ bridge, may then work as-is. Rejected: a custom UART-tuned protocol.
 - `D3` **Self-contained Python host tooling** — because it reuses the auto-drone capture code and the scientific Python stack. Rejected: depending on auto-drone.
-- `D4` **Continuous streaming is gated by a feasibility check** — IF the classic ESP32 can't capture continuously, THEN US2 and US3 are dropped. A live view built from repeated snapshot spectra replaces them.
+- `D4` **Continuous streaming is gated by a feasibility check** — IF the classic ESP32 can't capture continuously, THEN US2 and US3 are dropped. A live view built from repeated snapshot spectra replaces them (`R11`). The check passes when the board captures continuously into its ring for 60 s with the second core running, and burst capture and spectra still meet `SC2`.
+
+- `D5` **The board is a new upstream-style build profile**, not a separate build system — because upstream already builds variants from its target catalog with per-profile config (the S31 streaming build is one), so the 921600 baud setting and later the ESP32 stream are config switches that upstream could take as-is. Rejected: our own build scripts and presets.
 
 ## Structure
 ```text
 esp32-devkitv1-sdr/          fork of esp-sdr (D1); upstream tree stays in place
-├── main/ components/ ...    upstream firmware; ESP32 changes kept small and marked
-├── devkit/                  DevKit V1 build presets, pinned toolchain, build/flash scripts (R1)
+├── main/ components/ ...    upstream firmware; ESP32 changes kept small, marked, behind config
+├── firmware-targets.json    + a DevKit V1 build profile alongside upstream's esp32 one (D5, R1)
 ├── host/                    Python package + CLI: device link, capture, spectrum, stream, SigMF (D3)
 │   └── tests/               run with no board attached (R10)
 ├── docs/devkitv1/           bench notes, measured limits, streaming design
@@ -68,7 +71,7 @@ esp32-devkitv1-sdr/          fork of esp-sdr (D1); upstream tree stays in place
 ```
 
 ## Edge cases
-- `E1` Tuning outside the lock range: refused with a clear error and no data.
+- `E1` Tuning outside the range, or a failed lock: refused with a clear error and no data (`R3`).
 - `E2` Host reads too slowly during streaming: the board drops and counts samples, and doesn't stall or crash (`R8`).
 - `E3` Board left in a bad state, e.g. by a previous session or other firmware: the host resyncs or resets it over the serial control lines.
 - `E4` A stream rate or bit depth that the link can't carry: refused up front, with the supported combinations listed.
@@ -76,5 +79,6 @@ esp32-devkitv1-sdr/          fork of esp-sdr (D1); upstream tree stays in place
 ## Success criteria
 - `SC1` From a fresh clone: build, flash, info, capture and spectrum all work on the bench in under 10 minutes of commands.
 - `SC2` 50 back-to-back bursts complete with zero integrity failures.
-- `SC3` (if `C3` holds) A 60 s stream at ≥31 kS/s completes with zero lost samples.
+- `SC3` (if `C3` holds) A 60 s stream at ≥31 kS/s completes with lost samples counted exactly and under 0.01% (bank-switch gaps; accepted at the U4 gate, 2026-11-05).
 - `SC4` (if `C3` holds) gqrx or SDR++ shows a live waterfall and retunes across the 2.4 GHz band.
+- `SC5` (if `C3` fails) The `R11` waterfall shows Wi-Fi channel activity live at ≥5 Hz.
