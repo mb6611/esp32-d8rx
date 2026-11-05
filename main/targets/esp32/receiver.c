@@ -284,11 +284,22 @@ static bool iqs_command(const char *line) {
 }
 #endif
 
+#ifdef HOP_PROBE
+#ifndef CONFIG_ESP_SDR_ESP32_IQS
+#error HOP_PROBE needs CONFIG_ESP_SDR_ESP32_IQS (FOFS state)
+#endif
+#include <stdlib.h>
+#include "hop_probe.h" /* devkitv1 fork: docs/devkitv1/fast-hop.md */
+#endif
+
 static void command(char *line) {
     if (burst_version_command(line)) return;
     if (burst_gpio_command(line)) return;
 #ifdef RING_PROBE
     if (ring_probe_command(line)) return;
+#endif
+#ifdef HOP_PROBE
+    if (hop_probe_command(line)) return;
 #endif
     if (spectrum_command(line, frequency_mhz, spectrum_acquire)) return;
     if (burst_common_command(line)) return;
