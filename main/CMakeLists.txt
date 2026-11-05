@@ -29,6 +29,9 @@ endif()
 if(IDF_TARGET STREQUAL "esp32" AND RING_PROBE)
     list(APPEND sources "${target_dir}/dsp_probe.c") # devkitv1 fork, plan U4.3
 endif()
+if(IDF_TARGET STREQUAL "esp32" AND CONFIG_ESP_SDR_ESP32_IQS)
+    list(APPEND sources "${target_dir}/iq_stream.c") # devkitv1 fork, plan U6b
+endif()
 set(probes RING_PROBE)
 set(fragments)
 if(NOT IDF_TARGET STREQUAL "esp32s3")

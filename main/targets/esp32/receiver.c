@@ -1,5 +1,7 @@
 /* Original ESP32 RX-only backend for the ESP-SDR burst protocol.
  * Register sequence derived from ESP-IDF's ESP32 librftest.a: adctrig/mac_init.
+ * Modified by Matthew Banaag, 2026: optional IQS and FOFS
+ * commands (CONFIG_ESP_SDR_ESP32_IQS).
  */
 #include <stdio.h>
 #include <string.h>
@@ -28,6 +30,10 @@
 #include "soc/dport_reg.h"
 #include "soc/dport_access.h"
 #include "heap_memory_layout.h"
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+#include "burst_parse.h"
+#include "iq_stream.h"
+#endif
 
 /* Reserve both SRAM banks, including their instruction aliases. Mode 2 only
  * exposes 32 KiB to MAC; mode 3 exposes the entire 64 KiB capture aperture. */
@@ -76,6 +82,9 @@ static void reply(const char *fmt, ...) {
 }
 
 static void tune_rx(unsigned mhz);
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+static int esp32_fofs; /* FOFS: PLL offset in kHz, applied from the next tune */
+#endif
 static void apply_gain(void);
 static bool rx_ready;
 static void prepare_rx(void) {
@@ -164,6 +173,10 @@ static void tune_rx(unsigned mhz) {
     rx_lo_plan_t plan = rx_lo_plan(mhz);
     rx_lo_select(false);
     bool channel = (mhz >= 2412 && mhz <= 2472 && (mhz - 2412) % 5 == 0) || mhz == 2484;
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+    /* A PLL offset also requires direct tuning on Wi-Fi channel frequencies. */
+    if (esp32_fofs) channel = false;
+#endif
     /* Calibrate on a real channel before bypassing the channel-number mapping.
      * Use the PHY entry point even for repeated requests: the Wi-Fi API can
      * skip a channel it thinks is already selected after a direct PLL retune. */
@@ -175,7 +188,12 @@ static void tune_rx(unsigned mhz) {
         unsigned cap = ram_chip_i2c_readReg(0x62, 1, 0);
         ram_chip_i2c_writeReg(0x62, 1, 0, cap & ~0x80u);
         /* This ROM uses 1/1024 MHz offsets, unlike the newer kHz API. */
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+        int khz = plan.offset_khz + esp32_fofs;
+        int offset = khz >= 0 ? (khz * 1024 + 500) / 1000 : -((-khz * 1024 + 500) / 1000);
+#else
         int offset = (plan.offset_khz * 1024 + 500) / 1000;
+#endif
         rom_set_rf_freq_offset(xtal == 26 ? 1 : xtal == 24 ? 2 : 0, plan.mhz, offset);
     }
 }
@@ -201,6 +219,71 @@ static bool capture(unsigned n, unsigned rate, unsigned format) {
 #define BURST_MAX_RATE  6
 #include "burst_commands.h"
 
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+/* Link budget: docs/devkitv1/iq-stream-uart.md (single source). Only 16 MS/s
+ * (rate code 6); total = fs/dec*2*bits/8 * (1+28/1024) must be <= 85% of 92160 B/s. */
+static bool iqs_allowed(unsigned rate, unsigned dec, unsigned bits) {
+    if (rate != 6) return false;
+    unsigned min_dec = bits == 4 ? 256 : bits == 8 ? 512 : bits == 16 ? 1024 : 0;
+    return min_dec && dec >= min_dec;
+}
+
+static bool iqs_command(const char *line) {
+    if (!strncmp(line, "FOFS ", 5)) {
+        int off;
+        if (!burst_parse_int(line + 5, -1000, 1000, &off)) {
+            reply("ERR args\n");
+            return true;
+        }
+        esp32_fofs = off;
+        rx_ready = false;
+        prepare_rx();
+        reply("OK\n");
+        return true;
+    }
+    if (strncmp(line, "IQS ", 4)) return false;
+    /* IQS ms dec bits rate [shift] [mode], as on the S3 (docs/iq-stream.md). */
+    unsigned f[6];
+    int kk = burst_parse_uints(line + 4, f, 6);
+    if (kk < 4) {
+        reply("ERR args\n");
+        return true;
+    }
+    unsigned ms = f[0], dec = f[1], bits = f[2], rate = f[3];
+    unsigned shift = kk >= 5 ? f[4] : bits < 15u ? 15u - bits : 0u;
+    unsigned mode = kk >= 6 ? f[5] : 0;
+    if (mode != 0 && mode != 2) {
+        reply("ERR mode\n");
+        return true;
+    }
+    if (rate != 0 && rate != 1 && rate != 6) {
+        reply("ERR rate\n");
+        return true;
+    }
+    if (dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 4 && bits != 8 && bits != 16) || shift > 24 ||
+        ms > 86400000u || !iqs_allowed(rate, dec, bits)) {
+        reply("ERR args\n");
+        return true;
+    }
+    prepare_rx();
+    filter_apply();
+    if (!iq_stream_start(ms, dec, bits, rate, shift, mode)) {
+        filter_restore();
+        reply("ERR capture\n");
+        return true;
+    }
+    reply("IQS 16000000 %u %u %u %u %u\n", dec, bits, shift, mode, frequency_mhz);
+    iq_stream_stats_t r;
+    iq_stream_run_until_stop(&r);
+    filter_restore();
+    reply("IQSEND %" PRIu32 " %" PRIu32 " %" PRIu32 " %" PRIu64 " %" PRIu64 " %" PRIu32 " %" PRIu32 " %" PRIu32
+          " %" PRIu32 " %" PRIu32 " %" PRIu32 " %u\n",
+          r.status, r.detail, r.units, r.pairs, r.elapsed_us, r.late_max, r.work_max, r.frames, r.drops,
+          r.abandoned, r.ffts, (unsigned)r.stopped_by_host);
+    return true;
+}
+#endif
+
 static void command(char *line) {
     if (burst_version_command(line)) return;
     if (burst_gpio_command(line)) return;
@@ -209,11 +292,18 @@ static void command(char *line) {
 #endif
     if (spectrum_command(line, frequency_mhz, spectrum_acquire)) return;
     if (burst_common_command(line)) return;
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+    if (iqs_command(line)) return;
+#endif
     unsigned n;
     char extra;
     if (!strcmp(line, "CAPS"))
         reply(
-            "CAPS VERSION GPIO SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8\n");
+            "CAPS VERSION GPIO SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8"
+#ifdef CONFIG_ESP_SDR_ESP32_IQS
+            " IQS FOFS"
+#endif
+            "\n");
     else if (sscanf(line, "BANDWIDTH %u %c", &n, &extra) == 1 &&
              (!n || (n >= RX_BANDWIDTH_MIN && n <= RX_BANDWIDTH_MAX))) {
         rx_filter = rx_bandwidth_dcap(n);
@@ -247,6 +337,8 @@ static void command(char *line) {
         reply("ERR command\n");
 }
 
+/* Keep __LINE__ (ESP_ERROR_CHECK) as upstream so the switch-off image is byte-identical. */
+#line 250
 void app_main(void) {
     esp_log_level_set("*", ESP_LOG_NONE);
     esp_err_t e = nvs_flash_init();

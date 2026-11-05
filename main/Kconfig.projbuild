@@ -1,3 +1,4 @@
+# Modified by Matthew Banaag, 2026: ESP_SDR_ESP32_IQS option.
 menu "ESP-SDR transport"
 
     config ESP_SDR_UART_ENABLED
@@ -53,5 +54,13 @@ menu "ESP-SDR transport"
         default 10 if IDF_TARGET_ESP32C61
         default 12 if IDF_TARGET_ESP32C5
         default 44
+
+    config ESP_SDR_ESP32_IQS
+        bool "Classic ESP32: IQS continuous IQ stream and FOFS (DevKit V1 fork)"
+        depends on IDF_TARGET_ESP32
+        default n
+        help
+            Adds the IQS and FOFS commands to the classic ESP32 firmware over
+            UART. Off by default so the upstream esp32 profile is unchanged.
 
 endmenu
