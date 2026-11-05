@@ -132,6 +132,10 @@ bool burst_serial_stop_requested(void) {
     return stopped;
 }
 
+int burst_serial_read(void *buffer, size_t size) {
+    return read_port(active_port, buffer, size);
+}
+
 int burst_serial_poll_line(char *line, size_t capacity) {
     for (unsigned j = 0; j < BURST_SERIAL_COUNT; ++j) {
         unsigned port = (next_port + j) % BURST_SERIAL_COUNT;

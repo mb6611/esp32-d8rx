@@ -1,6 +1,6 @@
 /* Original ESP32 RX-only backend for the ESP-SDR burst protocol.
  * Register sequence derived from ESP-IDF's ESP32 librftest.a: adctrig/mac_init.
- * Modified by Matthew Banaag, 2026: optional IQS and FOFS
+ * Modified by Matthew Banaag, 2026: optional IQS, FOFS and hop-follow (HOPTAB)
  * commands (CONFIG_ESP_SDR_ESP32_IQS).
  */
 #include <stdio.h>
@@ -220,6 +220,9 @@ static bool capture(unsigned n, unsigned rate, unsigned format) {
 #include "burst_commands.h"
 
 #ifdef CONFIG_ESP_SDR_ESP32_IQS
+#include <stdlib.h>
+#include "hop_follow.h" /* devkitv1 fork: docs/devkitv1/hop-follow.md */
+
 /* Link budget: docs/devkitv1/iq-stream-uart.md (single source). Only 16 MS/s
  * (rate code 6); total = fs/dec*2*bits/8 * (1+28/1024) must be <= 85% of 92160 B/s. */
 static bool iqs_allowed(unsigned rate, unsigned dec, unsigned bits) {
@@ -274,7 +277,9 @@ static bool iqs_command(const char *line) {
     }
     reply("IQS 16000000 %u %u %u %u %u\n", dec, bits, shift, mode, frequency_mhz);
     iq_stream_stats_t r;
+    hopf_run_begin();
     iq_stream_run_until_stop(&r);
+    hopf_run_end();
     filter_restore();
     reply("IQSEND %" PRIu32 " %" PRIu32 " %" PRIu32 " %" PRIu64 " %" PRIu64 " %" PRIu32 " %" PRIu32 " %" PRIu32
           " %" PRIu32 " %" PRIu32 " %" PRIu32 " %u\n",
@@ -305,6 +310,7 @@ static void command(char *line) {
     if (burst_common_command(line)) return;
 #ifdef CONFIG_ESP_SDR_ESP32_IQS
     if (iqs_command(line)) return;
+    if (hopf_command(line)) return;
 #endif
     unsigned n;
     char extra;
@@ -312,7 +318,7 @@ static void command(char *line) {
         reply(
             "CAPS VERSION GPIO SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8"
 #ifdef CONFIG_ESP_SDR_ESP32_IQS
-            " IQS FOFS"
+            " IQS FOFS HOPF"
 #endif
             "\n");
     else if (sscanf(line, "BANDWIDTH %u %c", &n, &extra) == 1 &&

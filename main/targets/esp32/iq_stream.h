@@ -37,3 +37,13 @@ bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_cod
 /* Emit IQS1 frames until ms elapses (0 = until a host byte or output blocked for
  * 2 s), then fill `*out` and return. receiver.c prints IQSEND from it. */
 void iq_stream_run_until_stop(iq_stream_stats_t *out);
+
+/* Hop following (docs/devkitv1/hop-follow.md), core 0 during a run only. */
+uint64_t iq_stream_pair_now(void);
+/* A retune ran over pairs [ps, pe] to channel slot `slot`: tag the output from
+ * ceil(ps / dec) on. False if the event queue is full. */
+bool iq_stream_hop_mark(uint64_t ps, uint64_t pe, unsigned slot);
+/* With a hook set, the run reads host lines: an empty line stops it, any other
+ * line goes to `fn` (called from the run loop). NULL restores stop-on-any-byte. */
+typedef void (*iq_stream_line_fn)(const char *line);
+void iq_stream_set_line_hook(iq_stream_line_fn fn);

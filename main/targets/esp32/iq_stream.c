@@ -132,6 +132,7 @@ typedef struct {
     volatile uint32_t alive, run, stop, done, beat, gain;
     volatile uint32_t bq_head, bq_tail; /* blocks pushed / consumed (free-running) */
     volatile uint32_t sq_head, sq_tail; /* segment marks pushed / consumed */
+    volatile uint32_t ptr;              /* low 32 bits of the write pointer as a pair index */
 } c1_ctl_t;
 static DRAM_ATTR c1_ctl_t c1;
 
@@ -366,6 +367,7 @@ static IRAM_ATTR void c1_stream(void) {
     uint32_t last_ptr = 0, last_cc = esp_cpu_get_cycle_count();
     uint64_t abs_ptr = 0, a0 = 0, a1 = SESSION;
     unsigned rf = 0;
+    c1.ptr = 0;
     while (!c1.stop) {
         /* Track the write pointer as an absolute pair index; CCOUNT settles
          * the lap count should a poll come more than half a lap late. */
@@ -374,6 +376,7 @@ static IRAM_ATTR void c1_stream(void) {
             uint32_t d = (p - last_ptr) & BANK_MASK, est = (cc - last_cc) / cpp;
             if (est > BANK / 2u) d += ((est - d + BANK / 2u) / BANK) * BANK;
             abs_ptr += d;
+            c1.ptr = (uint32_t)abs_ptr;
             last_ptr = p;
             last_cc = cc;
             if (abs_ptr >= a1 || c1.stop) break;
@@ -465,7 +468,30 @@ static struct {
     uint32_t s_head, s_tail;      /* frame slots */
     uint16_t s_len[NSLOT];
     uint32_t ms;
+    uint8_t hop_on, slot;         /* hop tagging active; channel slot of the frame being built */
 } f;
+
+/* ---- hop tagging (docs/devkitv1/hop-follow.md) ----------------------------
+ * A retune at pair index ps..pe (on core 0, from the hop timer) splits the
+ * output at sample k = ceil(ps / dec): the frame before it ends there, the
+ * next one starts there with flag bit 2 set, flag bits 4..7 = samples to
+ * blank from its start / 8 (retune end + filter span), and the shift byte
+ * = the new channel slot. While tagging is on every frame has flag bit 3
+ * set and its shift byte is its channel slot. */
+#define HQ_N 16u
+typedef struct {
+    uint64_t k;     /* first output sample on the new channel */
+    uint32_t blank; /* samples from k to blank */
+    uint8_t slot;
+} hop_ev_t;
+static hop_ev_t hq[HQ_N];
+static volatile uint32_t hq_head, hq_tail;
+static iq_stream_line_fn line_hook;
+static struct {
+    uint64_t pair;  /* exact pair index at time t */
+    int64_t t;
+    bool valid;
+} anchor;
 
 static void frame_flush(void) {
     if (!f.fill) return;
@@ -474,10 +500,10 @@ static void frame_flush(void) {
                       .sample_index = f.frame_index,
                       .samples = (uint16_t)f.fsamp,
                       .bits = (uint8_t)f.bits,
-                      .flags = f.flags,
+                      .flags = (uint8_t)(f.flags | (f.hop_on ? 8u : 0u)),
                       .dec = (uint16_t)f.dec,
                       .gain = (uint8_t)c1.gain,
-                      .shift = (uint8_t)f.shift};
+                      .shift = (uint8_t)(f.hop_on ? f.slot : f.shift)};
     if (f.s_head - f.s_tail < NSLOT) {
         uint8_t *s = slots + (f.s_head % NSLOT) * SLOT_BYTES;
         uint32_t len = IQS_HDR + f.fill;
@@ -499,7 +525,19 @@ static void frame_flush(void) {
     f.fsamp = 0;
 }
 
+static void hop_boundary(void) {
+    hop_ev_t *e = &hq[hq_tail % HQ_N];
+    frame_flush();
+    uint32_t b = (e->blank + 7u) / 8u;
+    f.flags = (uint8_t)((f.flags & 3u) | 4u | ((b > 15u ? 15u : b) << 4));
+    f.slot = e->slot;
+    f.hop_on = 1;
+    __asm__ volatile("memw" ::: "memory");
+    hq_tail = hq_tail + 1u;
+}
+
 static void iqs_put(int32_t i, int32_t q) {
+    while (hq_tail != hq_head && f.out_index >= hq[hq_tail % HQ_N].k) hop_boundary();
     if (f.bits == 1) { /* sign bits: sample k of a byte has I at bit 2k, Q at bit 2k+1; 1 = negative */
         uint32_t k = f.fsamp & 3u, v = ((uint32_t)i >> 31) | (((uint32_t)q >> 31) << 1);
         if (k == 0) cur[IQS_HDR + f.fill++] = (uint8_t)v;
@@ -693,6 +731,54 @@ static void make_taps(uint32_t L, uint32_t d2) {
     taps[L / 2] += (int16_t)(32768 - total); /* exact unity DC gain */
 }
 
+/* Current absolute pair index (core 0, during a run). The app CPU publishes
+ * its pointer only between polls (it can be up to a session stale), so the
+ * estimate comes from esp_timer against an exact anchor and the ring pointer
+ * (DUMP_STATUS) fixes the position within the 8192-pair lap; good while the
+ * estimate is within half a lap (256 us) of the truth. */
+static portMUX_TYPE anchor_mux = portMUX_INITIALIZER_UNLOCKED;
+static uint64_t pair_now_locked(void) {
+    {
+        int64_t t = esp_timer_get_time();
+        uint32_t p = REG_READ(DUMP_STATUS) & BANK_MASK;
+        if (!anchor.valid) { /* the run loop calls this from the start, while the
+                              * published pointer is small and less than a lap stale */
+            uint32_t a = c1.ptr;
+            anchor.pair = (uint64_t)a + ((p - a) & BANK_MASK);
+            anchor.t = t;
+            anchor.valid = c1.beat != 0; /* ring running and c1.ptr from this run */
+            return anchor.pair;
+        }
+        uint64_t est = anchor.pair + (uint64_t)((t - anchor.t) * 16);
+        int32_t corr = (int32_t)(((p - (uint32_t)est + BANK / 2u) & BANK_MASK)) - (int32_t)(BANK / 2u);
+        anchor.pair = est + (int64_t)corr;
+        anchor.t = t;
+        return anchor.pair;
+    }
+}
+
+uint64_t iq_stream_pair_now(void) {
+    portENTER_CRITICAL(&anchor_mux);
+    uint64_t v = pair_now_locked();
+    portEXIT_CRITICAL(&anchor_mux);
+    return v;
+}
+
+bool iq_stream_hop_mark(uint64_t ps, uint64_t pe, unsigned slot) {
+    uint32_t h = hq_head;
+    if (h - hq_tail >= HQ_N) return false;
+    uint64_t k = (ps + f.dec - 1u) >> f.log2dec;
+    uint64_t end = ((pe + f.dec - 1u) >> f.log2dec) + 12u + 4u; /* + FIR span (12 outputs) + margin */
+    hq[h % HQ_N] = (hop_ev_t){.k = k, .blank = (uint32_t)(end - k), .slot = (uint8_t)slot};
+    __asm__ volatile("memw" ::: "memory");
+    hq_head = h + 1u;
+    return true;
+}
+
+void iq_stream_set_line_hook(iq_stream_line_fn fn) {
+    line_hook = fn;
+}
+
 bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_code, unsigned shift, unsigned mode) {
     if (rate_code != 6 || dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 1 && bits != 4 && bits != 8 && bits != 16) ||
         (mode != 0 && mode != 2))
@@ -750,9 +836,35 @@ bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_cod
     f.bits = bits;
     f.shift = shift;
     f.ms = ms;
+    hq_head = hq_tail = 0;
+    anchor.valid = false;
     par.rot = mode == 2;
     par.cyc_per_pair = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ / 16u;
     return c1_start();
+}
+
+/* In-stream lines (hop builds): an empty line stops the run, others go to the hook. */
+static bool poll_lines(void) {
+    static char line[96];
+    static uint32_t used;
+    char buf[32];
+    int n;
+    while ((n = burst_serial_read(buf, sizeof buf)) > 0) {
+        for (int j = 0; j < n; j++) {
+            char c = buf[j];
+            if (c == '\r') continue;
+            if (c != '\n') {
+                if (used < sizeof line - 1u) line[used++] = c;
+                continue;
+            }
+            line[used] = 0;
+            uint32_t len = used;
+            used = 0;
+            if (!len) return true;
+            line_hook(line);
+        }
+    }
+    return false;
 }
 
 void iq_stream_run_until_stop(iq_stream_stats_t *out) {
@@ -770,6 +882,7 @@ void iq_stream_run_until_stop(iq_stream_stats_t *out) {
     c1.stop = 0;
     c1.done = 0;
     c1.beat = 0;
+    c1.ptr = 0;
     c1_memw();
     c1.run++;
     int64_t t0 = esp_timer_get_time(), last_ok = t0, last_beat_t = t0;
@@ -778,7 +891,7 @@ void iq_stream_run_until_stop(iq_stream_stats_t *out) {
     for (;;) {
         int64_t now = esp_timer_get_time();
         if (f.ms && now - t0 >= (int64_t)f.ms * 1000) break;
-        if (burst_serial_stop_requested()) {
+        if (line_hook ? poll_lines() : burst_serial_stop_requested()) {
             host = true;
             break;
         }
@@ -799,6 +912,7 @@ void iq_stream_run_until_stop(iq_stream_stats_t *out) {
         prof_blocks += work;
         prof_busy += esp_cpu_get_cycle_count() - pc;
 #endif
+        if (line_hook) (void)iq_stream_pair_now(); /* keep the pair anchor fresh */
         bool progress = false;
         while (f.s_tail != f.s_head) {
             uint8_t *s = slots + (f.s_tail % NSLOT) * SLOT_BYTES;
