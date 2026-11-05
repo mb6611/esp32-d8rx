@@ -14,7 +14,7 @@ Send `IQS <milliseconds> <decimation> <bits> <rate_code> [shift] [mode]`.
 | --- | --- |
 | milliseconds | Run time; 0 runs until any byte from the host (or until output has been blocked for 2 s) |
 | decimation | 64 to 1024, power of two (16 MS/s: 250, 125, 62.5 ... 15.6 kS/s) |
-| bits | 4, 8 or 16 bits per I and Q component |
+| bits | 4, 8 or 16 bits per I and Q component (ESP32 DevKit V1 also 1: sign only, see `devkitv1/iq-stream-uart.md`) |
 | rate_code | Ring rate code (0, 1 or 6) |
 | shift | Rounding right shift of the filter output; default `15 - bits` (0 for 16 bits) |
 | mode | 0: filter at 0 Hz IF; 2: multiply by j^n (+fs/4 shift) before filtering |
@@ -35,6 +35,18 @@ centre: the LO leakage and the 1/f hump at 0 Hz IF then fall outside the
 output band. As with the raw ring, RF above the LO appears at negative
 frequency; hosts conjugate the samples.
 
+Frequency convention (measured on the ESP32 DevKit V1 with its 40 MHz
+crystal harmonics as a ruler, 2026-11-05): after the host conjugates, RF at
+`wanted + d` appears at `+d`, where `wanted` is the LO in mode 0 and
+LO + 4 MHz in mode 2. In mode 2 the harmonic landed within 0.6 kHz of the
+expected offset at LO 2396/2436/2476 MHz (with and without FOFS, 1-bit dec 64
+and 8-bit dec 512), and an LO 4 MHz above instead showed no line. FOFS is
+resolved in 1/1024 MHz steps (error up to 0.5 kHz). The ESP32 host does the
+LO arithmetic: `esp32sdr stream --center MHZ --mode 2` tunes FREQ/FOFS so
+that MHZ lands at 0 Hz (`iqs.plan_tune`). Stage 2's transition band is wide
+(cutoff at the output Nyquist), so a strong signal just beyond fs/2 still
+shows up aliased, and with 1-bit samples it can still decode.
+
 ## Frames
 
 All integers are little-endian:
@@ -50,7 +62,7 @@ All integers are little-endian:
 | 20 | 2 | Decimation |
 | 22 | 1 | Gain metadata from the first I/Q word |
 | 23 | 1 | Shift |
-| 24 | N | Interleaved I, Q (int8 or int16; 4 bits: I in the low nibble, Q in the high nibble), N <= 1024 |
+| 24 | N | Interleaved I, Q (int8 or int16; 4 bits: I in the low nibble, Q in the high nibble; 1 bit: 4 samples per byte, `devkitv1/iq-stream-uart.md`), N <= 1024 |
 | 24+N | 4 | CRC32 (zlib) of header and payload |
 
 The sample index advances by the frame's sample count; any jump is a gap the
