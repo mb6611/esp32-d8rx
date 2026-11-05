@@ -28,7 +28,18 @@
  * runs stage 2, a Kaiser-windowed FIR decimating by dec/16 (L = min(12*dec/16,
  * 256) taps, beta 5.65, cutoff at the output Nyquist), rounds >> shift and
  * saturates as the S3 does (output = 10-bit sample x 32), builds IQS1 frames
- * with CRC32 and drains them to the UART.
+ * with CRC32 and drains them to the UART. Bits 1 (devkitv1 only) hard-limits
+ * instead: each output keeps only the sign of I and of Q (shift is ignored),
+ * four complex samples per byte, so FSK at 125 or 250 kS/s fits the UART.
+ *
+ * Core-0 load (bench, 2026-11-05, build with -DCMAKE_C_FLAGS=-DIQS_PROF, which
+ * prints an IQSPROF line before IQSEND and self-checks dot16): stage 2 is about
+ * 24 M MAC/s at every dec. With GCC's l16ui/mula dot product and one call per
+ * block it took ~220 cycles per 1 MS/s block (~92 % of core 0; the queue
+ * reached 7146 of 8192 at 4-bit dec 256 and overflowed at 1-bit dec 64/128).
+ * The asm dot16 (32-bit loads, mula.aa.ll/hh, zero-overhead loop) and batched
+ * drain give 77-119 cycles per block: 32 % (8-bit dec 512) to 50 % (1-bit dec
+ * 64), queue peak ~1000.
  *
  * Loss semantics (same as the S3 engine): after any input gap the pipeline
  * realigns to the decimation grid, the next frame's sample_index jumps (time
@@ -68,6 +79,13 @@
 #include "heap_memory_layout.h"
 #include "burst_serial.h"
 #include "iq_stream.h"
+#ifdef IQS_PROF /* bench only: core-0 load line before IQSEND (not part of the protocol) */
+#include <stdio.h>
+static uint64_t prof_busy;
+static uint32_t prof_qmax;
+static uint64_t prof_dot, prof_blocks;
+static uint32_t prof_dot_bad;
+#endif
 
 #ifndef RING_PROBE /* dsp_probe.c reserves the same area in probe builds */
 /* The app CPU's ROM boot path uses its ROM data and stack here; a unicore
@@ -442,7 +460,7 @@ static struct {
     uint32_t n, n2;               /* stage 2 history fill, inputs since the last output */
     uint32_t skip;                /* blocks to skip to reach the dec grid */
     uint64_t out_index, frame_index;
-    uint32_t fill, frame, frames, drops;
+    uint32_t fill, fsamp, frame, frames, drops; /* payload bytes, samples in the frame */
     uint8_t flags;
     uint32_t s_head, s_tail;      /* frame slots */
     uint16_t s_len[NSLOT];
@@ -451,11 +469,10 @@ static struct {
 
 static void frame_flush(void) {
     if (!f.fill) return;
-    uint32_t per = f.bits == 16 ? 4u : f.bits == 8 ? 2u : 1u;
     iqs_header_t h = {.magic = IQS_MAGIC,
                       .frame = f.frame,
                       .sample_index = f.frame_index,
-                      .samples = (uint16_t)(f.fill / per),
+                      .samples = (uint16_t)f.fsamp,
                       .bits = (uint8_t)f.bits,
                       .flags = f.flags,
                       .dec = (uint16_t)f.dec,
@@ -479,9 +496,19 @@ static void frame_flush(void) {
     }
     f.frame_index = f.out_index;
     f.fill = 0;
+    f.fsamp = 0;
 }
 
 static void iqs_put(int32_t i, int32_t q) {
+    if (f.bits == 1) { /* sign bits: sample k of a byte has I at bit 2k, Q at bit 2k+1; 1 = negative */
+        uint32_t k = f.fsamp & 3u, v = ((uint32_t)i >> 31) | (((uint32_t)q >> 31) << 1);
+        if (k == 0) cur[IQS_HDR + f.fill++] = (uint8_t)v;
+        else cur[IQS_HDR + f.fill - 1u] |= (uint8_t)(v << (2u * k));
+        f.fsamp++;
+        f.out_index++;
+        if (f.fsamp >= 4u * IQS_PAYLOAD) frame_flush();
+        return;
+    }
     uint32_t sh = f.shift;
     if (sh) { /* round to nearest */
         int32_t r = 1 << (sh - 1);
@@ -508,15 +535,48 @@ static void iqs_put(int32_t i, int32_t q) {
         o[0] = (uint8_t)((i & 15) | (q << 4));
         f.fill += 1;
     }
+    f.fsamp++;
     f.out_index++;
     if (f.fill >= IQS_PAYLOAD) frame_flush();
 }
 
+/* Sum x[k] * h[k], k < L. x and h are 4-byte aligned and L is a multiple of 8
+ * (L = 12 * d2 or 256, n - L even): two 32-bit loads feed two MAC16 steps
+ * (mula.aa.ll / mula.aa.hh), in a zero-overhead loop. Same result as the plain
+ * C loop; about 2x fewer instructions than GCC's l16ui/mula code. */
 static __attribute__((noinline)) int32_t dot16(const int16_t *x, const int16_t *h, uint32_t L) {
-    int32_t a = 0;
-#pragma GCC unroll 8
-    for (uint32_t k = 0; k < L; k++) a += x[k] * h[k];
-    return a;
+    int32_t r;
+    uint32_t t0, t1, t2, t3, n = L >> 3;
+    const int16_t *px = x, *ph = h;
+    __asm__ volatile("movi %[t0], 0\n"
+                     "wsr %[t0], acclo\n"
+                     "wsr %[t0], acchi\n"
+                     "loopnez %[n], 1f\n"
+                     "l32i %[t0], %[x], 0\n"
+                     "l32i %[t1], %[h], 0\n"
+                     "l32i %[t2], %[x], 4\n"
+                     "l32i %[t3], %[h], 4\n"
+                     "mula.aa.ll %[t0], %[t1]\n"
+                     "mula.aa.hh %[t0], %[t1]\n"
+                     "l32i %[t0], %[x], 8\n"
+                     "l32i %[t1], %[h], 8\n"
+                     "mula.aa.ll %[t2], %[t3]\n"
+                     "mula.aa.hh %[t2], %[t3]\n"
+                     "l32i %[t2], %[x], 12\n"
+                     "l32i %[t3], %[h], 12\n"
+                     "mula.aa.ll %[t0], %[t1]\n"
+                     "mula.aa.hh %[t0], %[t1]\n"
+                     "addi %[x], %[x], 16\n"
+                     "addi %[h], %[h], 16\n"
+                     "mula.aa.ll %[t2], %[t3]\n"
+                     "mula.aa.hh %[t2], %[t3]\n"
+                     "1:\n"
+                     "rsr %[r], acclo\n"
+                     : [r] "=r"(r), [x] "+r"(px), [h] "+r"(ph), [n] "+r"(n), [t0] "=&r"(t0), [t1] "=&r"(t1),
+                       [t2] "=&r"(t2), [t3] "=&r"(t3)
+                     :
+                     : "memory");
+    return r;
 }
 
 /* New segment starting at pair index idx (multiple of 16). */
@@ -531,27 +591,41 @@ static void stage2_realign(uint64_t idx) {
     if (f.frame || f.frames || f.drops) f.flags |= 1;
 }
 
-static void stage2(uint32_t v) {
-    if (f.skip) {
+/* Blocks bq[t .. t+cnt) of one segment through stage 2 (locals in registers;
+ * the per-block cost matters: 1 M blocks/s on core 0). */
+static void stage2_run(uint32_t t, uint32_t cnt) {
+    while (cnt && f.skip) {
         f.skip--;
-        return;
+        t++;
+        cnt--;
     }
     int16_t *xi = hist, *xq = hist + HIST_N;
-    uint32_t n = f.n;
-    xi[n] = (int16_t)(v & 0xffffu);
-    xq[n] = (int16_t)(v >> 16);
-    f.n = ++n;
-    if (++f.n2 < f.d2) return;
-    f.n2 = 0;
-    uint32_t L = f.taps;
-    /* taps sum 32768, input 16 x 10-bit: >> 14 gives the 10-bit sample x 32 */
-    int32_t ai = dot16(xi + n - L, taps, L), aq = dot16(xq + n - L, taps, L);
-    iqs_put(ai >> 14, aq >> 14);
-    if (n == HIST_N) {
-        memcpy(xi, xi + n - L, 2u * L);
-        memcpy(xq, xq + n - L, 2u * L);
-        f.n = L;
+    uint32_t n = f.n, n2 = f.n2;
+    const uint32_t d2 = f.d2, L = f.taps;
+    for (; cnt; cnt--, t++) {
+        uint32_t v = bq[t % BQ_N];
+        xi[n] = (int16_t)(v & 0xffffu);
+        xq[n] = (int16_t)(v >> 16);
+        n++;
+        if (++n2 < d2) continue;
+        n2 = 0;
+#ifdef IQS_PROF
+        uint32_t pc = esp_cpu_get_cycle_count();
+#endif
+        /* taps sum 32768, input 16 x 10-bit: >> 14 gives the 10-bit sample x 32 */
+        int32_t ai = dot16(xi + n - L, taps, L), aq = dot16(xq + n - L, taps, L);
+        iqs_put(ai >> 14, aq >> 14);
+#ifdef IQS_PROF
+        prof_dot += esp_cpu_get_cycle_count() - pc;
+#endif
+        if (n == HIST_N) {
+            memcpy(xi, xi + n - L, 2u * L);
+            memcpy(xq, xq + n - L, 2u * L);
+            n = L;
+        }
     }
+    f.n = n;
+    f.n2 = n2;
 }
 
 /* Consume up to max queued blocks; returns how many. */
@@ -559,24 +633,23 @@ static uint32_t stage2_drain(uint32_t max) {
     uint32_t t = c1.bq_tail, h = c1.bq_head, done = 0;
     c1_memw();
     while (t != h && done < max) {
+        uint32_t end = h - t > max - done ? t + (max - done) : h;
         if (c1.sq_tail != c1.sq_head) {
             c1_memw();
             seg_t *s = &sq[c1.sq_tail % SQ_N];
             if (s->pos == t) {
                 stage2_realign(s->idx);
                 c1.sq_tail = c1.sq_tail + 1u;
+                continue; /* the next mark (if any) is at a later block */
             }
+            if (s->pos - t < end - t) end = s->pos; /* stop before the next segment */
         }
-        stage2(bq[t % BQ_N]);
-        t++;
-        done++;
-        if ((done & 63u) == 0) {
-            c1_memw();
-            c1.bq_tail = t;
-        }
+        stage2_run(t, end - t);
+        done += end - t;
+        t = end;
+        c1_memw();
+        c1.bq_tail = t;
     }
-    c1_memw();
-    c1.bq_tail = t;
     return done;
 }
 
@@ -621,7 +694,7 @@ static void make_taps(uint32_t L, uint32_t d2) {
 }
 
 bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_code, unsigned shift, unsigned mode) {
-    if (rate_code != 6 || dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 4 && bits != 8 && bits != 16) ||
+    if (rate_code != 6 || dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 1 && bits != 4 && bits != 8 && bits != 16) ||
         (mode != 0 && mode != 2))
         return false;
     if (!slots) {
@@ -648,6 +721,26 @@ bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_cod
     }
     uint32_t d2 = dec / C1_DECIM, L = 12u * d2;
     if (L > MAX_TAPS) L = MAX_TAPS;
+#ifdef IQS_PROF /* dot16 (asm) against the plain C sum on pseudo-random data, every even offset */
+    {
+        uint32_t x = 12345u;
+        for (uint32_t k = 0; k < 2u * HIST_N; k++) {
+            x = x * 1103515245u + 12345u;
+            hist[k] = (int16_t)(x >> 16);
+        }
+        for (uint32_t k = 0; k < MAX_TAPS; k++) {
+            x = x * 1103515245u + 12345u;
+            taps[k] = (int16_t)(x >> 16);
+        }
+        prof_dot_bad = 0;
+        for (uint32_t Lt = 8; Lt <= MAX_TAPS; Lt += 8)
+            for (uint32_t o = 0; o + Lt <= 2u * HIST_N; o += 34u) {
+                int32_t ref = 0;
+                for (uint32_t k = 0; k < Lt; k++) ref += hist[o + k] * taps[k];
+                if (dot16(hist + o, taps, Lt) != ref) prof_dot_bad++;
+            }
+    }
+#endif
     make_taps(L, d2);
     memset(&f, 0, sizeof(f));
     f.dec = dec;
@@ -697,7 +790,15 @@ void iq_stream_run_until_stop(iq_stream_stats_t *out) {
             stalled = true;
             break;
         }
+#ifdef IQS_PROF
+        uint32_t pq = c1.bq_head - c1.bq_tail, pc = esp_cpu_get_cycle_count();
+        if (pq > prof_qmax) prof_qmax = pq;
+#endif
         uint32_t work = stage2_drain(512);
+#ifdef IQS_PROF
+        prof_blocks += work;
+        prof_busy += esp_cpu_get_cycle_count() - pc;
+#endif
         bool progress = false;
         while (f.s_tail != f.s_head) {
             uint8_t *s = slots + (f.s_tail % NSLOT) * SLOT_BYTES;
@@ -719,6 +820,20 @@ void iq_stream_run_until_stop(iq_stream_stats_t *out) {
          * blocks of the 8192-block queue. */
         if (!progress && !work) vTaskDelay(1);
     }
+#ifdef IQS_PROF
+    {
+        char l[160];
+        int64_t el = esp_timer_get_time() - t0;
+        uint64_t cyc = (uint64_t)CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ * (uint64_t)(el ? el : 1);
+        int n = snprintf(l, sizeof l, "IQSPROF dot_bad %u stage2_busy_permille %u dot_put_permille %u blocks %u cyc_per_block %u qmax %u of %u\n",
+                         (unsigned)prof_dot_bad, (unsigned)(prof_busy * 1000u / cyc), (unsigned)(prof_dot * 1000u / cyc), (unsigned)prof_blocks,
+                         (unsigned)(prof_blocks ? prof_busy / prof_blocks : 0), (unsigned)prof_qmax, (unsigned)BQ_N);
+        prof_dot = prof_blocks = 0;
+        burst_serial_send(l, (size_t)n);
+        prof_busy = 0;
+        prof_qmax = 0;
+    }
+#endif
     c1_memw();
     c1.stop = 1;
     int64_t ts = esp_timer_get_time();

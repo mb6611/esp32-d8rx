@@ -224,7 +224,7 @@ static bool capture(unsigned n, unsigned rate, unsigned format) {
  * (rate code 6); total = fs/dec*2*bits/8 * (1+28/1024) must be <= 85% of 92160 B/s. */
 static bool iqs_allowed(unsigned rate, unsigned dec, unsigned bits) {
     if (rate != 6) return false;
-    unsigned min_dec = bits == 4 ? 256 : bits == 8 ? 512 : bits == 16 ? 1024 : 0;
+    unsigned min_dec = bits == 1 ? 64 : bits == 4 ? 256 : bits == 8 ? 512 : bits == 16 ? 1024 : 0;
     return min_dec && dec >= min_dec;
 }
 
@@ -260,7 +260,7 @@ static bool iqs_command(const char *line) {
         reply("ERR rate\n");
         return true;
     }
-    if (dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 4 && bits != 8 && bits != 16) || shift > 24 ||
+    if (dec < 64 || dec > 1024 || (dec & (dec - 1)) || (bits != 1 && bits != 4 && bits != 8 && bits != 16) || shift > 24 ||
         ms > 86400000u || !iqs_allowed(rate, dec, bits)) {
         reply("ERR args\n");
         return true;
