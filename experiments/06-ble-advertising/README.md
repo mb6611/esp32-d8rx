@@ -26,6 +26,10 @@ This picks out one phone's packets by their timing and strength alone, with 31 k
 
 *Figure: the on recording with the phone's train removed, against the off recording. Source: `scripts/residual.py`.*
 
+![Spectrogram of one second of the on recording: all signal, the phone's pulses only, and everything else](figures/spectrogram_phone_isolated_1s.png)
+
+*Figure: one second of the on recording, split into the phone's pulses and everything else.*
+
 ---
 
 ## Numbers

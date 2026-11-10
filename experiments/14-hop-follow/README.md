@@ -30,6 +30,18 @@ So the board follows the whole D8 link in real time, at about 108 packets a seco
 
 *Figure: the d8live page in follow mode, 1693 of 1731 slots decoded (97.8%), 0 lock losses. Each square of the hit map is one hop slot in hop order; the red one is slot 33. The script that made this screenshot was not kept.*
 
+![The d8live page in follow mode, replayed from 30 s of logged packets while both sticks move, about 108 packets a second](figures/d8live-follow-sticks.gif)
+
+*Figure: the same page replayed from 30 s of packets logged live while I moved both sticks, about 108 updates a second (2.4 a second on one channel in 13).*
+
+![The Stats tab: packets, hop-follow and stream tables, and a 47-cell hit map with one red cell](figures/d8live-stats.png)
+
+*Figure: the Stats tab after about 18 minutes: 97.8% of slots, no lock losses. Each square is one hop slot in hop order; the red one is 2411.435 MHz.*
+
+![The Waterfall tab's hop map: 47 narrow columns labelled from 2403.9 to 2477.4 MHz, each with a dash every 0.42 s](figures/d8live-hopmap.png)
+
+*Figure: about 22 s of the hop map. Each dash is one 9 ms visit. The 2411.4 MHz column looks like the others: the signal is there but does not decode.*
+
 ![Left stick rendered at yaw 1500 µs, throttle 1627 µs, with a red line on the vertical centre](figures/stick_1500_1627.png)
 
 *Figure: headless render of the left-stick gimbal at (1500, 1627) µs; the red line marks the centre, and the knob sits on it. A check of the page drawing, not of the radio.*
