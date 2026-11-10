@@ -12,11 +12,11 @@ The setting I tested was dec 512, 8-bit: 16 MS/s / 512 = 31.25 kS/s, 62,500 byte
 
 In the recording I could see bursts from nearby Bluetooth devices: 39 distinct bursts at least 6 dB above the median in 60 s. They were irregular, with a median spacing of about 1.07 s and 10 to 90% of spacings between 0.34 and 2.56 s. Several devices were advertising at once, so no single interval stood out, and I couldn't pick out one particular device. A 31.25 kS/s stream also only sees about 31 kHz of a 1 MHz Bluetooth channel, so some packets are missed entirely. Picking out one device needed a controlled source I could switch on and off, which I did in [06](../06-ble-advertising/README.md).
 
-This shows that one setting, 8-bit at 31.25 kS/s, streams for 60 s without loss. It doesn't test the other allowed settings at length, and it doesn't check the sample values across bank swaps against a known signal, only that none are missing. The next step was to get the stream into ordinary SDR software ([04](../04-rtltcp-bridge/README.md)).
-
 ![Power over time in 4 ms steps and a spectrogram of the 60 s stream at 2402 MHz, 31.25 kS/s](figures/u75-ble-2402.png)
 
 *Figure: 60 s at 2402 MHz, dec 512, 8-bit: power in 4 ms steps and a spectrogram. Source: `data/ble.sigmf-*`; the plotting script was not kept.*
+
+This shows that one setting, 8-bit at 31.25 kS/s, streams for 60 s without loss. It doesn't test the other allowed settings at length, and it doesn't check the sample values across bank swaps against a known signal, only that none are missing. The next step was to get the stream into ordinary SDR software ([04](../04-rtltcp-bridge/README.md)).
 
 ---
 

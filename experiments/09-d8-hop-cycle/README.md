@@ -8,11 +8,11 @@ For each snapshot I took the power at each of the 47 table frequencies, above th
 
 The best fit was 422.70 ms, 47 slots of 8.994 ms. The matched score was 23.4 dB against 4.5 ± 0.2 dB for 200 random slot assignments, a z-score of about 89. With the E8 off, at the same period, it was 3.1 dB against 2.9 ± 0.1 dB. The diagonal is clean with the E8 on and absent with it off. So the board, sampling far too slowly to follow one hop, recovered the hop order and the slot length.
 
-The period was not quite right, though I didn't know it yet. When the hop follower in [14](../14-hop-follow/README.md) fitted a line through the times of thousands of decoded packets, it got 8.989 ms per slot, a 422.50 ms cycle. The strobe was 0.05% long. That is too little to matter for this picture, but enough to push retunes into packets within seconds at 111 hops a second, so the follower measures the period itself. This experiment also only sees energy; nothing here was decoded.
-
 ![One hop cycle rebuilt from 835 snapshots, and power per table channel per time slot, E8 on (top) and off (bottom)](figures/hop_cycle_on_vs_off.png)
 
 *Figure: left, one 47-slot cycle rebuilt from the snapshots, predicted hops from the bind table in cyan; right, mean power at each table channel in each time slot. E8 on (top) and off (bottom), same colour scale. Source: `data/strobe_{on,off}.npz`, `scripts/sbs.py`.*
+
+The period was not quite right, though I didn't know it yet. When the hop follower in [14](../14-hop-follow/README.md) fitted a line through the times of thousands of decoded packets, it got 8.989 ms per slot, a 422.50 ms cycle. The strobe was 0.05% long. That is too little to matter for this picture, but enough to push retunes into packets within seconds at 111 hops a second, so the follower measures the period itself. This experiment also only sees energy; nothing here was decoded.
 
 ---
 

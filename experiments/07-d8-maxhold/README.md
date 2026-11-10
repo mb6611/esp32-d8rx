@@ -8,17 +8,17 @@ The obvious comparison, on minus off, wasn't selective. At the 47 table frequenc
 
 So I measured each bin's height above the median of the bins around it, over about 2 MHz (51 bins). That removes the overall level and the shape of the receiver's filter, and leaves narrow peaks. Then I compared the average peak height at the 47 table channels with the average at the other 199 positions on the same 299.93 kHz grid, which the E8 never uses. Because the E8's crystal and the board's both have some error, I shifted the predicted frequencies by an assumed error from −150 to +150 kHz in 5 kHz steps and took the best. At −35 kHz the 47 table channels stood +10.8 dB above their surroundings and the 199 unused positions −0.1 dB. With the E8 off, both were +0.1 dB. So the energy sits on the table channels and not on the grid in general.
 
-The fit doesn't pin the frequency error down well. The score is nearly flat for any error between about −100 and −30 kHz, which is not surprising: the bins are 39 kHz wide and the signal itself is about 95 kHz wide. At the time I only knew it was a combined error of the E8 and the board, somewhere in that range. Later, in [11](../11-d8-decoding/README.md), I measured the E8 directly on one channel at 2421.032 MHz, 64 kHz below nominal (about −26 ppm), which falls inside it.
-
-This shows where the E8 transmits, not when. Max-hold throws away the time of each snapshot, so it says nothing about the hop order or timing (that came in [09](../09-d8-hop-cycle/README.md)), and it doesn't show that the peaks are D8 packets, only that something narrow appears on the table's channels when the E8 is on. Next I zoomed in on one channel with the stream ([08](../08-d8-one-channel/README.md)).
-
 ![Full-band max-hold with the E8 on and off, the difference with the 47 bind-table frequencies marked, and the same difference with the mean detector](figures/maxhold_on_off.png)
 
 *Figure: 80 MS/s, 2048 bins (39 kHz), max over 5 s. Top: max-hold, E8 on and off. Middle: on minus off; red lines are the 47 hop frequencies from the bind table. Bottom: the same with the mean detector. Source: `data/spec_{on,off}.npz`, `scripts/plot_maxhold.py`.*
 
+The fit doesn't pin the frequency error down well. The score is nearly flat for any error between about −100 and −30 kHz, which is not surprising: the bins are 39 kHz wide and the signal itself is about 95 kHz wide. At the time I only knew it was a combined error of the E8 and the board, somewhere in that range. Later, in [11](../11-d8-decoding/README.md), I measured the E8 directly on one channel at 2421.032 MHz, 64 kHz below nominal (about −26 ppm), which falls inside it.
+
 ![Mean peak height at the 47 hop channels and the 199 unused grid channels against assumed frequency error, E8 on and off; and a zoom of 2414–2430 MHz with the hop channels marked](figures/hop_alignment.png)
 
 *Figure: top, mean peak height above the local 2 MHz median against the assumed frequency error, for the 47 hop channels and the 199 unused channels, E8 on and off. Bottom: 2414–2430 MHz, peak height above the local median, hop channels shifted by −35 kHz in grey. Source: `data/spec_{on,off}.npz`, `scripts/align.py`.*
+
+This shows where the E8 transmits, not when. Max-hold throws away the time of each snapshot, so it says nothing about the hop order or timing (that came in [09](../09-d8-hop-cycle/README.md)), and it doesn't show that the peaks are D8 packets, only that something narrow appears on the table's channels when the E8 is on. Next I zoomed in on one channel with the stream ([08](../08-d8-one-channel/README.md)).
 
 ---
 

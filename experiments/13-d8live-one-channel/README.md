@@ -6,11 +6,11 @@ By the end of [11](../11-d8-decoding/README.md) I could decode every visit of th
 
 In the main run, 274.2 s long, it found its first packet within the first 0.5 s and then decoded 649 CRC-valid packets, 2.37 a second. At one visit every 422.5 ms (the cycle measured precisely later, in 14), 274 s holds about 649 visits, so it got practically every one. It also logged 22 candidates that failed the CRC. Once locked it decoded only 4.9% of the samples, and the whole process used 13.3 s of CPU over the run, about 5% of a core. The stream itself was clean: 16,732 frames and 68.5 million samples with 0 lost and 0 bad CRCs. A short second run of 10.9 s gave 26 CRC-valid packets of 27 candidates.
 
-So live decoding works, and 2.37 a second is exactly what hearing 1 channel out of 47 allows. That is slow next to the roughly 111 packets a second the E8 really sends: on the page the knobs jump every 420 ms or so, and a quick flick of a stick can happen entirely between two packets. To get all of them, the board has to hop with the transmitter ([14](../14-hop-follow/README.md)).
-
 ![The two sticks of the E8, redrawn from 30 s of packets decoded live](figures/sticks.gif)
 
 *Figure: both sticks redrawn from 30 s of packets logged from the web page's WebSocket while the sticks were moved. Real updates arrive about 2.4 times a second; the knob glides in between. Source: `data/sticks.json`, `scripts/stickgif.py`.*
+
+So live decoding works, and 2.37 a second is exactly what hearing 1 channel out of 47 allows. That is slow next to the roughly 111 packets a second the E8 really sends: on the page the knobs jump every 420 ms or so, and a quick flick of a stick can happen entirely between two packets. To get all of them, the board has to hop with the transmitter ([14](../14-hop-follow/README.md)).
 
 ---
 

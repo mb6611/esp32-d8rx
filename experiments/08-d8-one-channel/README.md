@@ -6,19 +6,19 @@ I streamed 20 s near the second entry of the hop table (nominal 2421.096 MHz), w
 
 In the power trace, averaged over 0.5 ms, there are far more bursts than the E8 should produce on one channel. Above 15 dB I counted 377 bursts in 20 s, 18.9 a second, with a median gap of 27 ms; one visit every 423 ms would be about 2.4 a second. So most of what this narrow slice picks up is not the E8 visiting this channel.
 
-To find the repeat period anyway, I folded the trace at trial periods from 415 to 435 ms and kept the one where the folded rows line up best. That was 425.95 ms (47 × 9.063 ms), with a fold contrast of 3.92 dB against a median of 0.60 dB over all trial periods. The autocorrelation of the burst pattern agreed, with its peak at 426.0 ms. In the folded picture two stripes per cycle stand out much more than the rest. I couldn't explain them at the time and I still can't.
-
-The 425.95 ms turned out to be wrong for the E8. The wideband strobe in [09](../09-d8-hop-cycle/README.md) gave 422.70 ms, and fitting the times of decoded packets in [14](../14-hop-follow/README.md) gave 422.50 ms. When the first decoder in [11](../11-d8-decoding/README.md) ran on this same recording, it found packets from the E8 (ID 66,178) 422.5 ms apart. So the E8's packets are in the recording at the right period, but the fold locked onto something stronger that repeats about every 426 ms. What that is, I don't know.
-
-So one narrow channel was too sparse and too cluttered to time the hops. The recording was still useful: it became the input for the first decoder in 11, which got 31 CRC-valid packets out of it.
-
 ![Power on 2421.031 MHz over 20 s, a 2 s zoom, and a 1 s spectrogram](figures/ch_on_look.png)
 
 *Figure: received power at 2421.031 MHz, 0.5 ms average, over the full 20 s (top) and 5–7 s (middle); spectrogram of 5–6 s with 2 ms FFTs (bottom). Source: `data/ch_on.sigmf-data`, `scripts/look.py`.*
 
+To find the repeat period anyway, I folded the trace at trial periods from 415 to 435 ms and kept the one where the folded rows line up best. That was 425.95 ms (47 × 9.063 ms), with a fold contrast of 3.92 dB against a median of 0.60 dB over all trial periods. The autocorrelation of the burst pattern agreed, with its peak at 426.0 ms. In the folded picture two stripes per cycle stand out much more than the rest. I couldn't explain them at the time and I still can't.
+
 ![The 20 s recording folded at 425.95 ms, one row per cycle, and the average over all cycles](figures/ch_on_fold.png)
 
 *Figure: power folded at the best period, 425.95 ms; each row is one cycle (top), average over all cycles with 47 slot lines (bottom). Source: `data/ch_on.sigmf-data`, `scripts/fold.py`.*
+
+The 425.95 ms turned out to be wrong for the E8. The wideband strobe in [09](../09-d8-hop-cycle/README.md) gave 422.70 ms, and fitting the times of decoded packets in [14](../14-hop-follow/README.md) gave 422.50 ms. When the first decoder in [11](../11-d8-decoding/README.md) ran on this same recording, it found packets from the E8 (ID 66,178) 422.5 ms apart. So the E8's packets are in the recording at the right period, but the fold locked onto something stronger that repeats about every 426 ms. What that is, I don't know.
+
+So one narrow channel was too sparse and too cluttered to time the hops. The recording was still useful: it became the input for the first decoder in 11, which got 31 CRC-valid packets out of it.
 
 ---
 
