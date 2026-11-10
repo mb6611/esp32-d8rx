@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "esp32sdr"
 version = "0.1.0"
-description = "Host tools for the ESP32 DevKit V1 SDR firmware (unofficial fork of ESPARGOS esp-sdr)"
+description = "Host tools for the ESP32 DevKit V1 SDR firmware (esp32-d8rx, built on ESPARGOS esp-sdr)"
 requires-python = ">=3.11"
 license = { text = "GPL-3.0-or-later" }
 dependencies = ["numpy", "pyserial"]
