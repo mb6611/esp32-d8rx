@@ -33,6 +33,20 @@ The results, each from a file in this repo:
 
 The full story, with Wi-Fi and Bluetooth LE along the way, is in the [writeup](docs/lab-log/README.md) ([HTML version](docs/lab-log/index.html)); every measurement, in order, with its data and scripts, is in [experiments/](experiments/README.md). The next step, getting the same board to transmit D8 and fly the drone, is [esp32-d8tx](https://github.com/mb6611/esp32-d8tx) ([live app](https://d8tx.mb6611.workers.dev)).
 
+## How it works
+
+The radio inside the ESP32 copies raw I/Q samples at 16 MS/s into a 64 KiB window of RAM. One CPU core swaps between the two 32 KiB halves so that no samples are lost, and the other core filters and decimates them until the stream fits through the 921600-baud UART to the Mac.
+
+![Receive pipeline: from the E8's radio wave through the ESP32 and the USB-serial chip to esp32sdr, d8live and SDR++](docs/diagrams/receive-pipeline.svg)
+
+The D8 transmitter sends one packet every 8.989 ms and hops to the next of 47 channels each time. The board retunes on a schedule that counts stream samples, and the Mac decodes each packet, fits when the next ones will arrive and sends a correction when the schedule drifts.
+
+![Hop following: the Mac fits the packet times and sends HS commands, the board retunes on its sample clock and tags the stream](docs/diagrams/hop-following.svg)
+
+Each packet is decoded from the 1-bit samples by filtering, FM demodulation, clock recovery and a CRC check.
+
+![D8 decode chain on the Mac, from 1-bit samples to a CRC-checked packet](docs/diagrams/decode-chain.svg)
+
 ## Quick start
 
 Full steps, the toolchain pin and bench recovery are in [docs/devkitv1/README.md](docs/devkitv1/README.md).
