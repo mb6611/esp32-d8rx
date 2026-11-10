@@ -97,3 +97,6 @@ Thumbs.db
 
 # Experiment logs are evidence: keep them even though *.log is ignored above.
 !/experiments/*/data/**/*.log
+
+# Diagram renders (the .svg files are the tracked output)
+docs/diagrams/*.png
