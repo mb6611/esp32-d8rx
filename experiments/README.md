@@ -6,10 +6,6 @@ Several experiments ran in parallel, sharing the board one at a time; each READM
 
 Each folder has a `README.md` (the story first, then numbers, files, how to re-run and when it ran), the original detailed notes where there were some (`notes.md`, or `notes/` where one experiment groups several checks), `data/` with the raw data as recorded, `scripts/`, and `figures/`. Files over 1 MB (the recordings and raw captures, about 790 MB) are not in git but in the release asset `experiments-data-v1`; each `data/DATA.md` lists them with size and sha256, and `experiments/fetch-data.sh` downloads and unpacks them into place.
 
-## 00: prior work
-
-Before this repo, in my own `auto-drone` workspace (stages 0–4), I did capture and playback experiments on the ESP32, wrote a Bluetooth advertiser (`native_adv`, used again in 15), and made the first CC2500 receive diagnostics on the drone. They are not repeated here.
-
 ## 01: [Can the classic ESP32 capture without gaps?](01-ring-feasibility/README.md)
 
 2026-11-05 12:49–13:04. esp-sdr only captured continuously on newer chips, so I probed whether the classic ESP32's sample writer can loop round a buffer like a ring. It can, but the CPU can't read the half the radio is writing into, so I swapped two 32 KiB halves each time the writer wrapped. That loses 0–7 samples per 8192-sample swap, and the firmware counts them exactly; the filter on the second core costs 5.37 cycles per sample pair of a 12-cycle budget.

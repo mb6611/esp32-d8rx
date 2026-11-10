@@ -30,7 +30,7 @@
 - Threshold sweep (ambient, 3 s each, `sweep/`): agc2=3 (max gain, MAGN_TARGET 33 dB) → CS stuck high (0 edges);
   agc2=203/251 with abs thr 0/+7 → 94/53/25/4 bursts/s; 255/+7 → none. Used agc2=251 (MAX_LNA_GAIN=7,
   MAX_DVGA_GAIN=3), agc1=64 (abs thr 0).
-- **BLE A/B** (ESP32 flashed with stage3 `native_adv`, toggled by `esp_ctl.py`, 3×10 s alternating, `ab/`):
+- **BLE A/B** (ESP32 flashed with stage3 `native_adv` (ESP-IDF's `bleprph` example), toggled by `esp_ctl.py`, 3×10 s alternating, `ab/`):
 
   | 2402 MHz | bursts/s | bursts with peak ≥ 50 raw (threshold chosen post hoc after seeing the data) | median spacing of those | dur p50 |
   |---|---|---|---|---|
