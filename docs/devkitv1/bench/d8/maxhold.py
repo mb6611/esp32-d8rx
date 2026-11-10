@@ -1,5 +1,5 @@
 import sys, numpy as np
-sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-devkitv1-sdr/host")
+sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-d8rx/host")
 from esp32sdr.device import Device
 from esp32sdr.spec_cmd import spectrum
 tag=sys.argv[1]; ms=int(sys.argv[2]) if len(sys.argv)>2 else 5000

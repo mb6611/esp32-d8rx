@@ -1,5 +1,5 @@
 import sys,numpy as np
-sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-devkitv1-sdr/host")
+sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-d8rx/host")
 from esp32sdr.device import Device
 from esp32sdr.iqs import IqsSession
 tag,mhz,fofs,sh=sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4])

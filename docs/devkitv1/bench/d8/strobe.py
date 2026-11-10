@@ -1,5 +1,5 @@
 import sys,numpy as np,matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-devkitv1-sdr/host")
+sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-d8rx/host")
 from esp32sdr.device import Device
 from esp32sdr.spec_cmd import spectrum
 tag=sys.argv[1]; P=0.42595

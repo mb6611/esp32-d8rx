@@ -1,5 +1,5 @@
 import sys,time,numpy as np
-sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-devkitv1-sdr/host")
+sys.path.insert(0,"/Users/1unoe/Developer/personal/esp32-d8rx/host")
 from esp32sdr.device import Device
 from esp32sdr.samples import decode_cap
 lo=int(sys.argv[1]); n=int(sys.argv[2]); fofs=int(sys.argv[3]) if len(sys.argv)>3 else 0
