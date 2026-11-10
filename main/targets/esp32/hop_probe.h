@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
  * ESP32 DevKit V1 fork: fast-retune (frequency hop) feasibility probe.
  * Built only with -DHOP_PROBE=ON; never packaged. Included by receiver.c after
- * tune_rx() and burst_capture.h. Results: docs/devkitv1/fast-hop.md.
+ * tune_rx() and burst_capture.h. Results: experiments/10-fast-retune/notes.md.
  *
  * A fast retune is the synthesizer part of tune_rx() only, never the DC/gain
  * recalibration. Frequencies are absolute kHz. Modes:

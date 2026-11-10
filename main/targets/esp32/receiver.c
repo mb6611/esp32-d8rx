@@ -221,7 +221,7 @@ static bool capture(unsigned n, unsigned rate, unsigned format) {
 
 #ifdef CONFIG_ESP_SDR_ESP32_IQS
 #include <stdlib.h>
-#include "hop_follow.h" /* devkitv1 fork: docs/devkitv1/hop-follow.md */
+#include "hop_follow.h" /* devkitv1 fork: experiments/14-hop-follow/notes.md */
 
 /* Link budget: docs/devkitv1/iq-stream-uart.md (single source). Only 16 MS/s
  * (rate code 6); total = fs/dec*2*bits/8 * (1+28/1024) must be <= 85% of 92160 B/s. */
@@ -294,7 +294,7 @@ static bool iqs_command(const char *line) {
 #error HOP_PROBE needs CONFIG_ESP_SDR_ESP32_IQS (FOFS state)
 #endif
 #include <stdlib.h>
-#include "hop_probe.h" /* devkitv1 fork: docs/devkitv1/fast-hop.md */
+#include "hop_probe.h" /* devkitv1 fork: experiments/10-fast-retune/notes.md */
 #endif
 
 static void command(char *line) {

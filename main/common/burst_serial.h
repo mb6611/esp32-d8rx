@@ -20,7 +20,7 @@ size_t burst_serial_try_send(const void *data, size_t size);
 /* Consume a stream stop request on the owning port only. */
 bool burst_serial_stop_requested(void);
 /* Read up to size bytes already received on the owning port; never waits.
- * (DevKit V1 fork: in-stream hop commands, docs/devkitv1/hop-follow.md.) */
+ * (DevKit V1 fork: in-stream hop commands, experiments/14-hop-follow/notes.md.) */
 int burst_serial_read(void *buffer, size_t size);
 
 /* Read commands forever and pass each line to `handle`. One port at a time

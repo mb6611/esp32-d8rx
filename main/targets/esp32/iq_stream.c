@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
  * ESP32 DevKit V1 fork (plan U6b): continuous decimated IQ stream (IQS1
  * frames, docs/iq-stream.md) for the classic ESP32, over UART.
- * Interface: iq_stream.h. Ring findings: docs/devkitv1/ring-feasibility.md.
+ * Interface: iq_stream.h. Ring findings: experiments/01-ring-feasibility/notes.md.
  *
  * Ring. The capture writer runs as an 8192-word ring (control bit 17). DPORT
  * MAC_DUMP_MODE 2 maps its offsets 0..8191 to the lower 32 KiB of the window,
@@ -53,7 +53,7 @@
  * app-CPU cycles per session (the budget is 8064 x 15 = 120960); `units`
  * sessions; `pairs` input pairs delivered to the filter.
  *
- * App-CPU rules (ring-feasibility.md): the app CPU runs only IRAM code and
+ * App-CPU rules (experiments/01-ring-feasibility/notes.md): the app CPU runs only IRAM code and
  * touches only internal DRAM (its cache SRAM is heap in unicore), with
  * interrupts masked. It only writes DPORT (CPU-3.10 errata: DPORT reads by
  * one CPU can corrupt the other CPU's 0x3ff4xxxx peripheral reads), and
@@ -471,7 +471,7 @@ static struct {
     uint8_t hop_on, slot;         /* hop tagging active; channel slot of the frame being built */
 } f;
 
-/* ---- hop tagging (docs/devkitv1/hop-follow.md) ----------------------------
+/* ---- hop tagging (experiments/14-hop-follow/notes.md) ----------------------------
  * A retune at pair index ps..pe (on core 0, from the hop timer) splits the
  * output at sample k = ceil(ps / dec): the frame before it ends there, the
  * next one starts there with flag bit 2 set, flag bits 4..7 = samples to

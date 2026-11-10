@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Hop-following receive helpers (firmware HOPTAB / in-stream HS HA HP HX).
 
-Protocol and measurements: docs/devkitv1/hop-follow.md. Receive only.
+Protocol and measurements: experiments/14-hop-follow/notes.md. Receive only.
 
 While a hop table is loaded, an IQS run accepts in-stream lines (no replies);
 an empty line stops it. Every retune tags the stream: the frame that starts a

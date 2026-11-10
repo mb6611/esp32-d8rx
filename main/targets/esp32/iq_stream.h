@@ -38,7 +38,7 @@ bool iq_stream_start(unsigned ms, unsigned dec, unsigned bits, unsigned rate_cod
  * 2 s), then fill `*out` and return. receiver.c prints IQSEND from it. */
 void iq_stream_run_until_stop(iq_stream_stats_t *out);
 
-/* Hop following (docs/devkitv1/hop-follow.md), core 0 during a run only. */
+/* Hop following (experiments/14-hop-follow/notes.md), core 0 during a run only. */
 uint64_t iq_stream_pair_now(void);
 /* A retune ran over pairs [ps, pe] to channel slot `slot`: tag the output from
  * ceil(ps / dec) on. False if the event queue is full. */

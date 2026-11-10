@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
  * ESP32 DevKit V1 fork: hop-following receive during an IQS stream (receive only).
  * Included by receiver.c after tune_rx(); design and measurements in
- * docs/devkitv1/hop-follow.md, retune method in docs/devkitv1/fast-hop.md (mode 1).
+ * experiments/14-hop-follow/notes.md, retune method in experiments/10-fast-retune/notes.md (mode 1).
  *
  * Before IQS (ordinary commands):
  *   HOPTAB i khz [khz ...]   LO frequencies (absolute kHz, the LO itself: the host

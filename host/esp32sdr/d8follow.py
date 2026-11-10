@@ -10,7 +10,7 @@ sample clock and tags each channel segment. This side
            packet time = a + m * P over the recent packets (m = hop number) and
            re-sends the schedule when the fit moves it by more than RESYNC_S;
   lost     no CRC-valid packet for LOST_HOPS hops: back to acquire.
-Design and measurements: docs/devkitv1/hop-follow.md.
+Design and measurements: experiments/14-hop-follow/notes.md.
 """
 from __future__ import annotations
 
@@ -172,7 +172,7 @@ class HopFollower:
     def decode_segment(self, x) -> list[d8.Result]:
         """Decode one locked channel segment (blank already cut; r.t relative to x[0]).
         A segment holds one packet, so the filter cutoffs are tried in order of past success
-        and the first CRC-valid pass ends it (hop-follow.md, decoder CPU)."""
+        and the first CRC-valid pass ends it (experiments/14-hop-follow/notes.md, decoder CPU)."""
         return self.seg_dec.decode(x, first_ok=True)
 
     def _segment(self, s) -> list[d8.Result]:

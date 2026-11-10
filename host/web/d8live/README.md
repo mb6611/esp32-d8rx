@@ -17,7 +17,7 @@ cd host && .venv/bin/esp32sdr d8live                 # board on /dev/cu.usbseria
 ```
 
 Options: `--follow` (follow all 47 hop channels, ~108 packets/s instead of ~2.4; needs the
-current devkitv1 firmware with `HOPTAB`, see docs/devkitv1/hop-follow.md), `--center 2421.032` (MHz), `--gain 40` (manual index, or `hw`), `--http-port 8765`,
+current devkitv1 firmware with `HOPTAB`, see experiments/14-hop-follow/notes.md), `--center 2421.032` (MHz), `--gain 40` (manual index, or `hw`), `--http-port 8765`,
 `--open` (open the browser), `--status 5` (console status every N s, 0 = off).
 
 For UI development run the backend as above plus `npm run dev` (Vite on :5173, `/ws` proxied
@@ -34,7 +34,7 @@ with a sync word), so false syncs inside the locked window count against it.
 
 ## Look and code layout
 
-The page follows the write-up (`docs/devkitv1/writeup/index.html`): white paper, Charter
+The page follows the write-up (`docs/lab-log/index.html`): white paper, Charter
 title, system sans for labels and captions, SF Mono for numbers, 1 px `#e3e3e6` rules, link
 blue for the tabs, and matplotlib's default colour cycle for the eight channels, as in the
 write-up's figures. Styling is Tailwind CSS v4 through `@tailwindcss/vite`.
