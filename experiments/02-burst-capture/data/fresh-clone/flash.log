@@ -1,0 +1,71 @@
+esptool v5.6.0
+Serial port /dev/cu.usbserial-0001:
+Connecting.....
+Connected to ESP32 on /dev/cu.usbserial-0001:
+Chip type:          ESP32-D0WD-V3 (revision v3.0)
+Features:           Wi-Fi, BT, Dual Core + LP Core, 240MHz, Vref calibration in eFuse, Coding Scheme None
+Crystal frequency:  40MHz
+MAC:                cc:db:a7:56:21:64
+
+Uploading stub flasher...
+Running stub flasher...
+Stub flasher running.
+Changing baud rate to 921600...
+Changed.
+
+Configuring flash size...
+
+Writing 'build-esp32-devkitv1/bootloader/bootloader.bin' at 0x00001000...
+SHA digest in image updated.
+Flash will be erased from 0x00001000 to 0x00007fff...
+Compressed 25792 bytes to 16382...
+Writing at 0x000074c0 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 16.00kB/16.00kB [0s] 
+Wrote 25792 bytes (16382 compressed) at 0x00001000 in 0.6 seconds (327.8 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Writing 'build-esp32-devkitv1/partition_table/partition-table.bin' at 0x00008000...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 3072 bytes to 103...
+Writing at 0x00008c00 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 103B/103B [0s] 
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (370.5 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Writing 'build-esp32-devkitv1/esp_sdr.bin' at 0x00010000...
+Flash will be erased from 0x00010000 to 0x000b5fff...
+Compressed 678560 bytes to 464411...
+Writing at 0x0001b168 ━                                3.5% 16.00kB/453.53kB [0s] 
+Writing at 0x000219fd ━━                               7.1% 32.00kB/453.53kB [0s] 
+Writing at 0x0002b5ed ━━━                             10.6% 48.00kB/453.53kB [0s] 
+Writing at 0x00030ba4 ━━━━                            14.1% 64.00kB/453.53kB [0s] 
+Writing at 0x00036205 ━━━━━                           17.6% 80.00kB/453.53kB [1s] 
+Writing at 0x0003b59a ━━━━━━                          21.2% 96.00kB/453.53kB [1s] 
+Writing at 0x0004066a ━━━━━━━                         24.7% 112.00kB/453.53kB [1s] 
+Writing at 0x00045f98 ━━━━━━━━                        28.2% 128.00kB/453.53kB [1s] 
+Writing at 0x0004b8ca ━━━━━━━━━╸                      31.8% 144.00kB/453.53kB [2s] 
+Writing at 0x00050e6a ━━━━━━━━━━╸                     35.3% 160.00kB/453.53kB [2s] 
+Writing at 0x000564e7 ━━━━━━━━━━━╸                    38.8% 176.00kB/453.53kB [2s] 
+Writing at 0x0005bbd2 ━━━━━━━━━━━━╸                   42.3% 192.00kB/453.53kB [2s] 
+Writing at 0x0006154e ━━━━━━━━━━━━━╸                  45.9% 208.00kB/453.53kB [2s] 
+Writing at 0x00066f92 ━━━━━━━━━━━━━━╸                 49.4% 224.00kB/453.53kB [3s] 
+Writing at 0x0006cdea ━━━━━━━━━━━━━━━╸                52.9% 240.00kB/453.53kB [3s] 
+Writing at 0x000725b1 ━━━━━━━━━━━━━━━━╸               56.4% 256.00kB/453.53kB [3s] 
+Writing at 0x0007797e ━━━━━━━━━━━━━━━━━╸              60.0% 272.00kB/453.53kB [3s] 
+Writing at 0x0007cae1 ━━━━━━━━━━━━━━━━━━━             63.5% 288.00kB/453.53kB [3s] 
+Writing at 0x00081c0a ━━━━━━━━━━━━━━━━━━━━            67.0% 304.00kB/453.53kB [4s] 
+Writing at 0x000872e7 ━━━━━━━━━━━━━━━━━━━━━           70.6% 320.00kB/453.53kB [4s] 
+Writing at 0x0008ca35 ━━━━━━━━━━━━━━━━━━━━━━          74.1% 336.00kB/453.53kB [4s] 
+Writing at 0x000923b1 ━━━━━━━━━━━━━━━━━━━━━━━         77.6% 352.00kB/453.53kB [4s] 
+Writing at 0x00097a6c ━━━━━━━━━━━━━━━━━━━━━━━━        81.1% 368.00kB/453.53kB [5s] 
+Writing at 0x0009d5f8 ━━━━━━━━━━━━━━━━━━━━━━━━━       84.7% 384.00kB/453.53kB [5s] 
+Writing at 0x000a2d2d ━━━━━━━━━━━━━━━━━━━━━━━━━━      88.2% 400.00kB/453.53kB [5s] 
+Writing at 0x000a8204 ━━━━━━━━━━━━━━━━━━━━━━━━━━━╸    91.7% 416.00kB/453.53kB [5s] 
+Writing at 0x000adff9 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   95.3% 432.00kB/453.53kB [5s] 
+Writing at 0x000b38d4 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸  98.8% 448.00kB/453.53kB [6s] 
+Writing at 0x000b5aa0 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 453.53kB/453.53kB [6s] 
+Wrote 678560 bytes (464411 compressed) at 0x00010000 in 6.2 seconds (876.5 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Hard resetting via RTS pin...

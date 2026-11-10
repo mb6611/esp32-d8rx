@@ -1,0 +1,1 @@
+{"global": {"core:datatype": "cf32_le", "core:sample_rate": 250000.0, "core:version": "1.0.0", "esp32sdr:bits": 1, "esp32sdr:decimation": 64, "esp32sdr:mode": 2, "esp32sdr:lo_mhz": 2417, "esp32sdr:fofs_khz": 96}, "captures": [{"core:sample_start": 0, "core:frequency": 2421096000.0}], "annotations": []}

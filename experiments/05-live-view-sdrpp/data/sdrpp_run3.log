@@ -1,0 +1,63 @@
+stopping old bridge pid 75727
+backed up SDR++ config to /Users/1unoe/Library/Application Support/sdrpp/esp32sdr-backup-20261105-140134
+bridge running; Ctrl-C stops it
+rtl_tcp on 127.0.0.1:1234, sample rate 31250 S/s
+launching SDR++ (250000 S/s from the bridge, SDR++ decimation 8 -> 31250 S/s span)
+client 127.0.0.1:55704
+output rate 250000 S/s (x8 interpolation)
+tune 2480 MHz fofs 0 kHz
+streaming 2480 MHz: 936448 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+streaming 2480 MHz: 1873920 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2402 MHz fofs 0 kHz
+streaming 2402 MHz: 936448 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 0 kHz
+streaming 2480 MHz: 936448 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+streaming 2480 MHz: 1873920 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 5 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 10 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 12 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 10 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 8 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 5 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs -2 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs -8 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs -12 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs -8 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 0 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 12 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 25 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 32 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 38 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 40 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 30 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 40 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 30 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 20 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 10 kHz
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+tune 2480 MHz fofs 0 kHz
+streaming 2480 MHz: 936960 samples, lost 0 samples, 0 short frames, 0 bad CRC, 0 blocks dropped for a slow client
+error: interrupted

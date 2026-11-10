@@ -1,0 +1,28 @@
+{
+  "global": {
+    "core:datatype": "cf32_le",
+    "core:sample_rate": 31250.0,
+    "core:version": "1.0.0",
+    "core:hw": "ESP32 DevKit V1 (esp-sdr firmware)",
+    "core:sample_count": 156240,
+    "esp32sdr:bits": 8,
+    "esp32sdr:gain_mode": "HARDWARE",
+    "esp32sdr:gain_index": 60,
+    "esp32sdr:firmware": "unknown",
+    "esp32sdr:decimation": 512,
+    "esp32sdr:fofs_khz": -5,
+    "esp32sdr:lo_mhz": 2436,
+    "esp32sdr:mode": 2,
+    "esp32sdr:capture": "stream",
+    "esp32sdr:gain_index_min": 3,
+    "esp32sdr:gain_index_max": 81
+  },
+  "captures": [
+    {
+      "core:sample_start": 0,
+      "core:frequency": 2439995000.0,
+      "core:datetime": "2026-11-05T21:57:05.051786Z"
+    }
+  ],
+  "annotations": []
+}

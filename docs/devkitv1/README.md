@@ -53,7 +53,7 @@ esp32sdr d8follow --seconds 60                                       # hop follo
 ```
 `--port` defaults to `/dev/cu.usbserial-0001`. The d8live page needs a one-time
 `cd host/web/d8live && npm install && npm run build`. Hop following needs this firmware
-(`HOPTAB`) and a manual gain. See `bench-results.md`, `live-view.md` and `hop-follow.md`.
+(`HOPTAB`) and a manual gain. See [live-view.md](live-view.md), [experiments/](../../experiments/README.md) and [hop following](../../experiments/14-hop-follow/notes.md).
 
 ## Check the link
 Open `/dev/cu.usbserial-0001` at 921600 and send `VERSION?`, `INFO`, `TRANSPORT?`;

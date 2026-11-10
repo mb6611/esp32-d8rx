@@ -1,0 +1,6 @@
+rtl_tcp on 127.0.0.1:1234, sample rate 31250 S/s
+client 127.0.0.1:55524
+tune 2480 MHz fofs 0 kHz
+ignored out-of-range frequency 1024000000 Hz
+ignored out-of-range frequency 1480000000 Hz
+client ended: TransferError: IQS stream failed: short read 1027/1028

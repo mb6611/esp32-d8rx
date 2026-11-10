@@ -46,7 +46,7 @@ Read on GitHub (https://github.com/z2labs/esp-sdr-bridge):
 
 ## U8.3 scripted check on the real board (2026-11-05)
 
-A Python rtl_tcp client against the running bridge confirmed the RTL0 header, ~31.1 kS/s sustained, retunes 2400 → 2483 → 2426 MHz with samples flowing after each, and clean disconnect/reconnect; the board stayed healthy. Details in `bench-results.md`. The gqrx waterfall check (U8.3) remains manual.
+A Python rtl_tcp client against the running bridge confirmed the RTL0 header, ~31.1 kS/s sustained, retunes 2400 → 2483 → 2426 MHz with samples flowing after each, and clean disconnect/reconnect; the board stayed healthy. Details in [experiment 07](../../experiments/04-rtltcp-bridge/README.md). The gqrx waterfall check (U8.3) remains manual.
 
 ## One command: SDR++ live view (`esp32sdr sdrpp`)
 
@@ -112,4 +112,4 @@ tab of `esp32sdr d8live` (`http://127.0.0.1:8765/#waterfall`). It shows ±125 kH
 tuned frequency, or with `--follow` a hop map with one strip per hop channel. Rows are made on
 the host (256-point FFT, 25 rows/s) only while the tab is open. It is not an rtl_tcp client
 and does not replace the bridge for general use. See `host/web/d8live/README.md` and
-`hop-follow.md`.
+[hop following](../../experiments/14-hop-follow/notes.md).

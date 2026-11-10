@@ -13,7 +13,7 @@ the table below. Change it here first.
 - Framing: 28 bytes per frame (24 header + 4 CRC32), frames carry ≤ 1024
   payload bytes, so total = payload × (1 + 28/1024).
 - `fs` is 16 MS/s (rate code 6). Rate codes 0 and 1 (80, 40 MS/s) are refused
-  on ESP32: the DSP and seam loss only fit at 16 MS/s (`ring-feasibility.md`).
+  on ESP32: the DSP and seam loss only fit at 16 MS/s ([ring feasibility](../../experiments/01-ring-feasibility/notes.md)).
 
 ## Allowed table (rate_code 6, dec power of two 64..1024)
 
@@ -68,7 +68,7 @@ negative (0 counts as positive). The payload is `ceil(samples/4)` bytes, the
 unused bits of the last byte are 0. Hosts decode to ±1 ± 1j (Q negated as for
 other widths); amplitude is lost, phase/frequency is kept.
 
-Measured on the bench (2026-11-05, ambient 2440 MHz, `host/tools/bench_iqs1bit.py`):
+Measured on the bench (2026-11-05, ambient 2440 MHz, `experiments/12-one-bit-stream/scripts/bench_iqs1bit.py`):
 1-bit dec 64, three 20 s runs and a 20 s `esp32sdr stream`: 0 index gaps, 0
 frame drops, 0 lost pairs; app-CPU `work_max` 99886–107620 of 120960; core 0
 about 50 % busy (`IQSPROF`, block queue peak ≈1100 of 8192). Dec 128: 43 %.

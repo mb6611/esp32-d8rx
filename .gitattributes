@@ -10,3 +10,6 @@
 *.ico binary
 *.woff binary
 *.woff2 binary
+
+# Experiment raw data stays byte-identical to what was recorded.
+experiments/*/data/** -text

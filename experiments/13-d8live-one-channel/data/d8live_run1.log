@@ -1,0 +1,32 @@
+d8live: 2421.032 MHz, 1-bit dec 64 mode 2, gain 40; UI http://127.0.0.1:8765/ (ws http://127.0.0.1:8765/ws)
+[    0.5s] search ok     0/    1 0.00 pkt/s  decode 57.1% of samples  lost 0  cpu 0.1s
+[   10.6s] locked ok    25/   29 2.50 pkt/s  decode 9.6% of samples  lost 0  cpu 0.6s
+[   20.7s] locked ok    49/   53 2.40 pkt/s  decode 7.2% of samples  lost 0  cpu 1.1s
+[   30.7s] locked ok    72/   76 2.30 pkt/s  decode 6.4% of samples  lost 0  cpu 1.5s
+[   40.8s] locked ok    96/  101 2.30 pkt/s  decode 6.0% of samples  lost 0  cpu 2.0s
+[   50.9s] locked ok   120/  125 2.30 pkt/s  decode 5.7% of samples  lost 0  cpu 2.4s
+[   61.0s] locked ok   144/  149 2.40 pkt/s  decode 5.6% of samples  lost 0  cpu 2.8s
+[   71.1s] locked ok   168/  174 2.40 pkt/s  decode 5.4% of samples  lost 0  cpu 3.3s
+[   81.2s] locked ok   192/  201 2.40 pkt/s  decode 5.4% of samples  lost 0  cpu 3.7s
+[   91.3s] locked ok   216/  225 2.40 pkt/s  decode 5.3% of samples  lost 0  cpu 4.2s
+[  101.4s] locked ok   240/  250 2.40 pkt/s  decode 5.2% of samples  lost 0  cpu 4.7s
+[  111.4s] locked ok   264/  274 2.40 pkt/s  decode 5.2% of samples  lost 0  cpu 5.2s
+[  121.5s] locked ok   287/  297 2.30 pkt/s  decode 5.1% of samples  lost 0  cpu 5.7s
+[  131.6s] locked ok   311/  321 2.30 pkt/s  decode 5.1% of samples  lost 0  cpu 6.2s
+[  141.7s] locked ok   335/  346 2.40 pkt/s  decode 5.1% of samples  lost 0  cpu 6.7s
+[  151.8s] locked ok   359/  372 2.40 pkt/s  decode 5.1% of samples  lost 0  cpu 7.2s
+[  161.8s] locked ok   383/  398 2.40 pkt/s  decode 5.1% of samples  lost 0  cpu 7.7s
+[  171.9s] locked ok   407/  422 2.40 pkt/s  decode 5.0% of samples  lost 0  cpu 8.2s
+[  182.0s] locked ok   430/  446 2.30 pkt/s  decode 5.0% of samples  lost 0  cpu 8.7s
+[  192.0s] locked ok   454/  471 2.30 pkt/s  decode 5.0% of samples  lost 0  cpu 9.2s
+[  202.1s] locked ok   478/  495 2.40 pkt/s  decode 5.0% of samples  lost 0  cpu 9.7s
+[  212.2s] locked ok   502/  519 2.40 pkt/s  decode 5.0% of samples  lost 0  cpu 10.2s
+[  222.3s] locked ok   526/  544 2.40 pkt/s  decode 5.0% of samples  lost 0  cpu 10.8s
+[  232.3s] locked ok   550/  568 2.40 pkt/s  decode 5.0% of samples  lost 0  cpu 11.3s
+[  242.4s] locked ok   574/  593 2.40 pkt/s  decode 4.9% of samples  lost 0  cpu 11.8s
+[  252.5s] locked ok   597/  617 2.30 pkt/s  decode 4.9% of samples  lost 0  cpu 12.3s
+[  262.6s] locked ok   621/  642 2.30 pkt/s  decode 4.9% of samples  lost 0  cpu 12.8s
+[  272.6s] locked ok   645/  667 2.40 pkt/s  decode 4.9% of samples  lost 0  cpu 13.3s
+
+stopped after 274.2 s: 649 CRC-ok packets of 671 (2.37/s), decoded 4.9% of samples, process CPU 13.3 s
+stream: frames 16732 samples 68533542 lost 0 (0.0000%) bad_crc 0 short 0; IQSEND {'status': 0, 'detail': 0, 'units': 543917, 'pairs': 4386146694, 'elapsed_us': 274143126, 'late_max': 11, 'work_max_cycles': 99327, 'frames': 16732, 'drops': 0, 'abandoned': 0, 'ffts': 0, 'stopped_by_host': 1}

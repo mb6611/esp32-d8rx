@@ -1,0 +1,7 @@
+d8live: 2421.032 MHz, 1-bit dec 64 mode 2, gain 40; UI http://127.0.0.1:8765/ (ws http://127.0.0.1:8765/ws)
+[    0.5s] locked ok     1/    1 1.98 pkt/s  decode 61.5% of samples  lost 0  cpu 0.2s
+[    5.5s] locked ok    13/   13 2.35 pkt/s  decode 9.1% of samples  lost 0  cpu 0.4s
+[   10.6s] locked ok    25/   26 2.30 pkt/s  decode 7.0% of samples  lost 0  cpu 0.7s
+
+stopped after 10.9 s: 26 CRC-ok packets of 27 (2.39/s), decoded 7.0% of samples, process CPU 0.7 s
+stream: frames 663 samples 2714922 lost 0 (0.0000%) bad_crc 0 short 0; IQSEND {'status': 0, 'detail': 0, 'units': 21547, 'pairs': 173755015, 'elapsed_us': 10869122, 'late_max': 11, 'work_max_cycles': 96289, 'frames': 663, 'drops': 0, 'abandoned': 0, 'ffts': 0, 'stopped_by_host': 1}

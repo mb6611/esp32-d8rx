@@ -1,0 +1,16 @@
+d8live: hop-follow (47 channels), 1-bit dec 64 mode 2, gain 40; UI http://127.0.0.1:8765/ (ws http://127.0.0.1:8765/ws)
+[    0.5s] acquire ok      0    0.0 pkt/s slots None% losses 0 lost 0
+[   20.7s] locked  ok   2166  108.4 pkt/s slots 97.8% losses 0 lost 0
+[   40.8s] locked  ok   4352  108.4 pkt/s slots 97.8% losses 0 lost 0
+[   61.0s] locked  ok   6536  108.3 pkt/s slots 97.7% losses 0 lost 0
+[   81.2s] locked  ok   8724  108.6 pkt/s slots 97.7% losses 0 lost 0
+[  101.3s] locked  ok  10912  108.7 pkt/s slots 97.7% losses 0 lost 0
+[  121.5s] locked  ok  13099  108.8 pkt/s slots 97.7% losses 0 lost 0
+[  141.6s] locked  ok  15290  108.8 pkt/s slots 97.7% losses 0 lost 0
+
+d8follow: 158.8 s, 17156 CRC-ok packets (108.0/s), 339 failed CRC
+  locked segments 17557, CRC-ok in them 17155 (97.7% of slots); first lock at 0.35268881976912503 s stream time
+  lock losses 0, re-acquire s []; schedules sent 9; slot mismatches 0, counter mismatches 0
+  period 8.9893 ms; decode CPU 91.28 s; median latency 15.9 ms
+  worst slots (slot:channel MHz:% ok): 33:2411.435:0%, 21:2443.826:97%, 38:2417.133:99%, 25:2433.029:99%, 3:2454.023:100%, 17:2454.623:100%
+  stream: frames 17612 samples 39679416 lost 0 bad_crc 0 short 0; IQSEND {'status': 0, 'detail': 0, 'units': 314916, 'pairs': 2539482635, 'elapsed_us': 158724026, 'late_max': 16, 'work_max_cycles': 100797, 'frames': 17612, 'drops': 0, 'abandoned': 0, 'ffts': 0, 'stopped_by_host': 1}

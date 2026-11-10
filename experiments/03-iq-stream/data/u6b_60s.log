@@ -1,0 +1,10 @@
+sync True
+> VERSION? | VERSION {"revision":"1d27d848e976042207d8b4d2b9581749e739c0d4-dirty","build_date":"2026-11-05","build_timestamp":"2026-11-05T18:33:45Z","profile":"esp32"}
+> CAPS | CAPS VERSION GPIO SPEC SPECN SPECCAPS SPECSTAT DCT UARTBAUD RXLIMITS SERIALLEASE TUNEEXT RX40 RX16 LPFANA GAIN HWAGC IQ8 IQS FOFS
+> FREQ 2402 | OK
+> IQS 60000 512 8 6 | IQS 16000000 512 8 7 0 2402
+frames=3663 bad_crc=0 seq_err=0 samples=1874990 jumps=0 jump_samples=0 flags={0: 3663} first_idx=0 wall=60.0s rate=31226/s bytes=3852603
+IQSEND 0 0 119047 959995020 60011569 11 95019 3663 0 0 0 0
+IQSEND pairs=959995020 lost_pairs=0 lost_frac=0.00000% units=119047 bad_sessions=0 late_max=11 work_max=95019
+index span 1874990, delivered 1874990, index loss frac 0.00000%
+> INFO | ESP32SDR 6 burst 16380

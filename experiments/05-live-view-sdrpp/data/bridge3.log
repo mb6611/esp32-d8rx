@@ -1,0 +1,13 @@
+rtl_tcp on 127.0.0.1:1234, sample rate 31250 S/s
+client 127.0.0.1:55687
+tune 2480 MHz fofs 0 kHz
+ignored out-of-range frequency 1024000000 Hz
+ignored out-of-range frequency 1480000000 Hz
+streaming 2480 MHz: 936448 samples, lost 0 samples, 0 short frames, 0 bad CRC, 1126 blocks dropped for a slow client
+streaming 2480 MHz: 1873920 samples, lost 0 samples, 0 short frames, 0 bad CRC, 1735 blocks dropped for a slow client
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 1735 blocks dropped for a slow client
+tune 2402 MHz fofs 0 kHz
+streaming 2402 MHz: 936448 samples, lost 0 samples, 0 short frames, 0 bad CRC, 1735 blocks dropped for a slow client
+stream stopped: lost 0 samples, 0 short frames, 0 bad CRC, 1735 blocks dropped for a slow client
+client disconnected
+error: interrupted

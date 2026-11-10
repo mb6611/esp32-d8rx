@@ -1,0 +1,27 @@
+[   30.2s] locked  ok   3230  108.4/s slots 97.8% losses 0 P 8.9893 ms cpu 2.37s
+[   60.4s] locked  ok   6510  108.5/s slots 97.8% losses 0 P 8.9892 ms cpu 4.64s
+[   90.7s] locked  ok   9792  108.9/s slots 97.8% losses 0 P 8.9892 ms cpu 6.85s
+[  120.9s] locked  ok  13073  108.5/s slots 97.8% losses 0 P 8.9892 ms cpu 9.02s
+[  151.1s] locked  ok  16363  108.8/s slots 97.8% losses 0 P 8.9892 ms cpu 10.92s
+[  181.4s] locked  ok  19649  108.4/s slots 97.8% losses 0 P 8.9891 ms cpu 12.88s
+[  211.6s] locked  ok  22935  108.9/s slots 97.8% losses 0 P 8.9891 ms cpu 14.85s
+[  241.8s] locked  ok  26223  108.8/s slots 97.8% losses 0 P 8.9891 ms cpu 16.83s
+[  272.1s] locked  ok  29507  108.9/s slots 97.8% losses 0 P 8.9891 ms cpu 18.71s
+[  302.3s] locked  ok  32790  108.4/s slots 97.8% losses 0 P 8.9891 ms cpu 20.69s
+[  332.5s] locked  ok  36080  108.9/s slots 97.8% losses 0 P 8.9891 ms cpu 22.73s
+[  362.8s] locked  ok  39359  108.3/s slots 97.8% losses 0 P 8.9891 ms cpu 24.74s
+[  393.0s] locked  ok  42635  108.5/s slots 97.8% losses 0 P 8.989 ms cpu 26.69s
+[  423.2s] locked  ok  45918  108.4/s slots 97.8% losses 0 P 8.9889 ms cpu 28.57s
+[  453.5s] locked  ok  49202  108.9/s slots 97.8% losses 0 P 8.9889 ms cpu 30.49s
+[  483.7s] locked  ok  52479  108.4/s slots 97.8% losses 0 P 8.9889 ms cpu 32.66s
+[  513.9s] locked  ok  55762  108.5/s slots 97.8% losses 0 P 8.9888 ms cpu 34.9s
+[  544.1s] locked  ok  59048  108.9/s slots 97.8% losses 0 P 8.9888 ms cpu 36.93s
+[  574.4s] locked  ok  62330  108.4/s slots 97.8% losses 0 P 8.9888 ms cpu 38.86s
+[  604.6s] locked  ok  65616  109.0/s slots 97.8% losses 0 P 8.9888 ms cpu 41.06s
+
+d8follow: 630.3 s, 68409 CRC-ok packets (108.5/s), 1245 failed CRC
+  locked segments 69926, CRC-ok in them 68408 (97.8% of slots); first lock at 0.13605325901981047 s stream time
+  lock losses 0, re-acquire s []; schedules sent 37; slot mismatches 0, counter mismatches 0
+  period 8.9887 ms; decode CPU 42.82 s; median latency 10.8 ms
+  worst slots (slot:channel MHz:% ok): 33:2411.435:0%, 21:2443.826:99%, 2:2437.528:100%, 13:2465.420:100%, 7:2443.226:100%, 27:2466.020:100%
+  stream: frames 70022 samples 157551050 lost 2248 bad_crc 1 short 0; IQSEND {'status': 0, 'detail': 0, 'units': 1250423, 'pairs': 10083411089, 'elapsed_us': 630221007, 'late_max': 18, 'work_max_cycles': 113754, 'frames': 70023, 'drops': 0, 'abandoned': 0, 'ffts': 0, 'stopped_by_host': 1}

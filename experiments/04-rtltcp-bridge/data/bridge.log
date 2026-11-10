@@ -1,0 +1,13 @@
+rtl_tcp on 127.0.0.1:1234, sample rate 31250 S/s
+client 127.0.0.1:55292
+tune 2402 MHz fofs 0 kHz
+stream stopped: lost 0 samples
+tune 2400 MHz fofs 0 kHz
+stream stopped: lost 0 samples
+tune 2483 MHz fofs 0 kHz
+stream stopped: lost 0 samples
+tune 2426 MHz fofs 0 kHz
+stream stopped: lost 0 samples
+client 127.0.0.1:55296
+tune 2426 MHz fofs 0 kHz
+stream stopped: lost 0 samples

@@ -1,0 +1,1177 @@
+
+Entering CLI Mode, type 'exit' to return, or 'help'
+
+# 
+>> board_name MATEKF411RX
+board_name MATEKF411RX
+
+# Set board_name.
+board_name MATEKF411RX
+
+# 
+>> manufacturer_id MTKS
+manufacturer_id MTKS
+
+# Set manufacturer_id.
+manufacturer_id MTKS
+
+# 
+>> resource BEEPER 1 C15
+resource BEEPER 1 C15
+
+Resource is set to C15
+
+# 
+>> resource MOTOR 1 B10
+resource MOTOR 1 B10
+
+Resource is set to B10
+
+# 
+>> resource MOTOR 2 B06
+resource MOTOR 2 B06
+
+Resource is set to B06
+
+# 
+>> resource MOTOR 3 B07
+resource MOTOR 3 B07
+
+Resource is set to B07
+
+# 
+>> resource MOTOR 4 B08
+resource MOTOR 4 B08
+
+Resource is set to B08
+
+# 
+>> resource PPM 1 A03
+resource PPM 1 A03
+
+Resource is set to A03
+
+# 
+>> resource PWM 1 A02
+resource PWM 1 A02
+
+Resource is set to A02
+
+# 
+>> resource PWM 2 A09
+resource PWM 2 A09
+
+Resource is set to A09
+
+# 
+>> resource PWM 3 A10
+resource PWM 3 A10
+
+Resource is set to A10
+
+# 
+>> resource LED_STRIP 1 A00
+resource LED_STRIP 1 A00
+
+Resource is set to A00
+
+# 
+>> resource SERIAL_TX 1 A09
+resource SERIAL_TX 1 A09
+
+NOTE: A09 already assigned to PWM 2.
+
+Resource is set to A09
+
+# 
+>> resource SERIAL_TX 2 A02
+resource SERIAL_TX 2 A02
+
+NOTE: A02 already assigned to PWM 1.
+
+Resource is set to A02
+
+# 
+>> resource SERIAL_RX 1 A10
+resource SERIAL_RX 1 A10
+
+NOTE: A10 already assigned to PWM 3.
+
+Resource is set to A10
+
+# 
+>> resource SERIAL_RX 2 A03
+resource SERIAL_RX 2 A03
+
+NOTE: A03 already assigned to PPM.
+
+Resource is set to A03
+
+# 
+>> resource LED 1 C13
+resource LED 1 C13
+
+Resource is set to C13
+
+# 
+>> resource SPI_SCK 1 A05
+resource SPI_SCK 1 A05
+
+Resource is set to A05
+
+# 
+>> resource SPI_SCK 2 B13
+resource SPI_SCK 2 B13
+
+Resource is set to B13
+
+# 
+>> resource SPI_SCK 3 B03
+resource SPI_SCK 3 B03
+
+Resource is set to B03
+
+# 
+>> resource SPI_MISO 1 A06
+resource SPI_MISO 1 A06
+
+Resource is set to A06
+
+# 
+>> resource SPI_MISO 2 B14
+resource SPI_MISO 2 B14
+
+Resource is set to B14
+
+# 
+>> resource SPI_MISO 3 B04
+resource SPI_MISO 3 B04
+
+Resource is set to B04
+
+# 
+>> resource SPI_MOSI 1 A07
+resource SPI_MOSI 1 A07
+
+Resource is set to A07
+
+# 
+>> resource SPI_MOSI 2 B15
+resource SPI_MOSI 2 B15
+
+Resource is set to B15
+
+# 
+>> resource SPI_MOSI 3 B05
+resource SPI_MOSI 3 B05
+
+Resource is set to B05
+
+# 
+>> resource ADC_BATT 1 B00
+resource ADC_BATT 1 B00
+
+Resource is set to B00
+
+# 
+>> resource ADC_CURR 1 B01
+resource ADC_CURR 1 B01
+
+Resource is set to B01
+
+# 
+>> resource OSD_CS 1 B12
+resource OSD_CS 1 B12
+
+Resource is set to B12
+
+# 
+>> resource RX_SPI_CS 1 A15
+resource RX_SPI_CS 1 A15
+
+Resource is set to A15
+
+# 
+>> resource RX_SPI_EXTI 1 C14
+resource RX_SPI_EXTI 1 C14
+
+Resource is set to C14
+
+# 
+>> resource RX_SPI_BIND 1 B02
+resource RX_SPI_BIND 1 B02
+
+Resource is set to B02
+
+# 
+>> resource RX_SPI_LED 1 B09
+resource RX_SPI_LED 1 B09
+
+Resource is set to B09
+
+# 
+>> resource RX_SPI_CC2500_TX_EN 1 A08
+resource RX_SPI_CC2500_TX_EN 1 A08
+
+Resource is set to A08
+
+# 
+>> resource RX_SPI_CC2500_LNA_EN 1 A13
+resource RX_SPI_CC2500_LNA_EN 1 A13
+
+Resource is set to A13
+
+# 
+>> resource RX_SPI_CC2500_ANT_SEL 1 A14
+resource RX_SPI_CC2500_ANT_SEL 1 A14
+
+Resource is set to A14
+
+# 
+>> resource GYRO_EXTI 1 A01
+resource GYRO_EXTI 1 A01
+
+Resource is set to A01
+
+# 
+>> resource GYRO_CS 1 A04
+resource GYRO_CS 1 A04
+
+Resource is set to A04
+
+# 
+>> timer A03 AF3
+timer A03 AF3
+# timer A03: changed from NONE to AF3
+
+# 
+>> timer B10 AF1
+timer B10 AF1
+# timer B10: changed from NONE to AF1
+
+# 
+>> timer B06 AF2
+timer B06 AF2
+# timer B06: changed from NONE to AF2
+
+# 
+>> timer B07 AF2
+timer B07 AF2
+# timer B07: changed from NONE to AF2
+
+# 
+>> timer B08 AF2
+timer B08 AF2
+# timer B08: changed from NONE to AF2
+
+# 
+>> timer A00 AF2
+timer A00 AF2
+# timer A00: changed from NONE to AF2
+
+# 
+>> timer A02 AF3
+timer A02 AF3
+# timer A02: changed from NONE to AF3
+
+# 
+>> timer A09 AF1
+timer A09 AF1
+# timer A09: changed from NONE to AF1
+
+# 
+>> timer A10 AF1
+timer A10 AF1
+# timer A10: changed from NONE to AF1
+
+# 
+>> dma ADC 1 1
+dma ADC 1 1
+# dma ADC 1: changed from NONE to 1
+
+# 
+>> dma pin B10 0
+dma pin B10 0
+# dma pin B10: changed from NONE to 0
+
+# 
+>> dma pin B06 0
+dma pin B06 0
+# dma pin B06: changed from NONE to 0
+
+# 
+>> dma pin B07 0
+dma pin B07 0
+# dma pin B07: changed from NONE to 0
+
+# 
+>> dma pin B08 0
+dma pin B08 0
+# dma pin B08: changed from NONE to 0
+
+# 
+>> dma pin A00 0
+dma pin A00 0
+# dma pin A00: changed from NONE to 0
+
+# 
+>> dma pin A09 0
+dma pin A09 0
+# dma pin A09: changed from NONE to 0
+
+# 
+>> dma pin A10 0
+dma pin A10 0
+# dma pin A10: changed from NONE to 0
+
+# 
+>> feature RX_SPI
+feature RX_SPI
+Enabled RX_SPI
+
+# 
+>> feature OSD
+feature OSD
+Enabled OSD
+
+# 
+>> set rx_spi_protocol = FRSKY_X
+set rx_spi_protocol = FRSKY_X
+rx_spi_protocol set to FRSKY_X
+# 
+>> set rx_spi_bus = 3
+set rx_spi_bus = 3
+rx_spi_bus set to 3
+# 
+>> set rx_spi_led_inversion = ON
+set rx_spi_led_inversion = ON
+rx_spi_led_inversion set to ON
+# 
+>> set dshot_burst = AUTO
+set dshot_burst = AUTO
+dshot_burst set to AUTO
+# 
+>> set current_meter = ADC
+set current_meter = ADC
+current_meter set to ADC
+# 
+>> set battery_meter = ADC
+set battery_meter = ADC
+battery_meter set to ADC
+# 
+>> set ibata_scale = 179
+set ibata_scale = 179
+ibata_scale set to 179
+# 
+>> set beeper_inversion = ON
+set beeper_inversion = ON
+beeper_inversion set to ON
+# 
+>> set beeper_od = OFF
+set beeper_od = OFF
+beeper_od set to OFF
+# 
+>> set system_hse_mhz = 8
+set system_hse_mhz = 8
+system_hse_mhz set to 8
+# 
+>> set max7456_spi_bus = 2
+set max7456_spi_bus = 2
+max7456_spi_bus set to 2
+# 
+>> set cc2500_spi_chip_detect = OFF
+set cc2500_spi_chip_detect = OFF
+cc2500_spi_chip_detect set to OFF
+# 
+>> set gyro_1_bustype = SPI
+set gyro_1_bustype = SPI
+gyro_1_bustype set to SPI
+# 
+>> set gyro_1_spibus = 1
+set gyro_1_spibus = 1
+gyro_1_spibus set to 1
+# 
+>> set gyro_1_sensor_align = CW180
+set gyro_1_sensor_align = CW180
+gyro_1_sensor_align set to CW180
+# 
+>> set gyro_2_spibus = 1
+set gyro_2_spibus = 1
+gyro_2_spibus set to 1
+# 
+>> diff all
+diff all
+###WARNING: NO CUSTOM DEFAULTS FOUND###
+
+# version
+# Betaflight / STM32F411 (S411) 4.2.11 Nov  9 2021 / 20:28:23 (948ba6339) MSP API: 1.43
+###ERROR: diff: NO CONFIG FOUND###
+# start the command batch
+batch start
+
+# reset configuration to default settings
+defaults nosave
+
+board_name MATEKF411RX
+manufacturer_id MTKS
+mcu_id 004b00363132510531373731
+signature 
+
+# resources
+resource BEEPER 1 C15
+resource MOTOR 1 B10
+resource MOTOR 2 B06
+resource MOTOR 3 B07
+resource MOTOR 4 B08
+resource PPM 1 A03
+resource PWM 1 A02
+resource PWM 2 A09
+resource PWM 3 A10
+resource LED_STRIP 1 A00
+resource SERIAL_TX 1 A09
+resource SERIAL_TX 2 A02
+resource SERIAL_RX 1 A10
+resource SERIAL_RX 2 A03
+resource LED 1 C13
+resource SPI_SCK 1 A05
+resource SPI_SCK 2 B13
+resource SPI_SCK 3 B03
+resource SPI_MISO 1 A06
+resource SPI_MISO 2 B14
+resource SPI_MISO 3 B04
+resource SPI_MOSI 1 A07
+resource SPI_MOSI 2 B15
+resource SPI_MOSI 3 B05
+resource ADC_BATT 1 B00
+resource ADC_CURR 1 B01
+resource OSD_CS 1 B12
+resource RX_SPI_CS 1 A15
+resource RX_SPI_EXTI 1 C14
+resource RX_SPI_BIND 1 B02
+resource RX_SPI_LED 1 B09
+resource RX_SPI_CC2500_TX_EN 1 A08
+resource RX_SPI_CC2500_LNA_EN 1 A13
+resource RX_SPI_CC2500_ANT_SEL 1 A14
+resource GYRO_EXTI 1 A01
+resource GYRO_CS 1 A04
+
+# timer
+timer A03 AF3
+# pin A03: TIM9 CH2 (AF3)
+timer B10 AF1
+# pin B10: TIM2 CH3 (AF1)
+timer B06 AF2
+# pin B06: TIM4 CH1 (AF2)
+timer B07 AF2
+# pin B07: TIM4 CH2 (AF2)
+timer B08 AF2
+# pin B08: TIM4 CH3 (AF2)
+timer A00 AF2
+# pin A00: TIM5 CH1 (AF2)
+timer A02 AF3
+# pin A02: TIM9 CH1 (AF3)
+timer A09 AF1
+# pin A09: TIM1 CH2 (AF1)
+timer A10 AF1
+# pin A10: TIM1 CH3 (AF1)
+
+# dma
+dma ADC 1 1
+# ADC 1: DMA2 Stream 4 Channel 0
+dma pin B10 0
+# pin B10: DMA1 Stream 1 Channel 3
+dma pin B06 0
+# pin B06: DMA1 Stream 0 Channel 2
+dma pin B07 0
+# pin B07: DMA1 Stream 3 Channel 2
+dma pin B08 0
+# pin B08: DMA1 Stream 7 Channel 2
+dma pin A00 0
+# pin A00: DMA1 Stream 2 Channel 6
+dma pin A09 0
+# pin A09: DMA2 Stream 6 Channel 0
+dma pin A10 0
+# pin A10: DMA2 Stream 6 Channel 0
+
+# feature
+feature OSD
+feature RX_SPI
+
+# master
+set rx_spi_protocol = FRSKY_X
+set rx_spi_bus = 3
+set rx_spi_led_inversion = ON
+set dshot_burst = AUTO
+set current_meter = ADC
+set battery_meter = ADC
+set ibata_scale = 179
+set beeper_inversion = ON
+set beeper_od = OFF
+set system_hse_mhz = 8
+set max7456_spi_bus = 2
+set cc2500_spi_chip_detect = OFF
+set gyro_1_bustype = SPI
+set gyro_1_spibus = 1
+set gyro_1_sensor_align = CW180
+set gyro_2_spibus = 1
+
+profile 0
+
+profile 1
+
+profile 2
+
+# restore original profile selection
+profile 0
+
+rateprofile 0
+
+rateprofile 1
+
+rateprofile 2
+
+rateprofile 3
+
+rateprofile 4
+
+rateprofile 5
+
+# restore original rateprofile selection
+rateprofile 0
+
+# save configuration
+save
+# 
+!!ERROR diff all
+>> board_name MATEKF411RX
+board_name MATEKF411RX
+
+# Set board_name.
+board_name MATEKF411RX
+
+# 
+>> manufacturer_id MTKS
+manufacturer_id MTKS
+
+# Set manufacturer_id.
+manufacturer_id MTKS
+
+# 
+>> mcu_id 004b00363132510531373731
+mcu_id 004b00363132510531373731
+mcu_id 004b00363132510531373731
+
+# 
+>> signature
+signature
+signature 
+
+# 
+>> feature -RX_PARALLEL_PWM
+feature -RX_PARALLEL_PWM
+Disabled RX_PARALLEL_PWM
+
+# 
+>> feature LED_STRIP
+feature LED_STRIP
+Enabled LED_STRIP
+
+# 
+>> beeper -GYRO_CALIBRATED
+beeper -GYRO_CALIBRATED
+Disabled GYRO_CALIBRATED
+
+# 
+>> beeper -RX_LOST
+beeper -RX_LOST
+Disabled RX_LOST
+
+# 
+>> beeper -RX_LOST_LANDING
+beeper -RX_LOST_LANDING
+Disabled RX_LOST_LANDING
+
+# 
+>> beeper -DISARMING
+beeper -DISARMING
+Disabled DISARMING
+
+# 
+>> beeper -ARMING
+beeper -ARMING
+Disabled ARMING
+
+# 
+>> beeper -ARMING_GPS_FIX
+beeper -ARMING_GPS_FIX
+Disabled ARMING_GPS_FIX
+
+# 
+>> beeper -BAT_CRIT_LOW
+beeper -BAT_CRIT_LOW
+Disabled BAT_CRIT_LOW
+
+# 
+>> beeper -BAT_LOW
+beeper -BAT_LOW
+Disabled BAT_LOW
+
+# 
+>> beeper -GPS_STATUS
+beeper -GPS_STATUS
+Disabled GPS_STATUS
+
+# 
+>> beeper -RX_SET
+beeper -RX_SET
+Disabled RX_SET
+
+# 
+>> beeper -ACC_CALIBRATION
+beeper -ACC_CALIBRATION
+Disabled ACC_CALIBRATION
+
+# 
+>> beeper -ACC_CALIBRATION_FAIL
+beeper -ACC_CALIBRATION_FAIL
+Disabled ACC_CALIBRATION_FAIL
+
+# 
+>> beeper -READY_BEEP
+beeper -READY_BEEP
+Disabled READY_BEEP
+
+# 
+>> beeper -DISARM_REPEAT
+beeper -DISARM_REPEAT
+Disabled DISARM_REPEAT
+
+# 
+>> beeper -ARMED
+beeper -ARMED
+Disabled ARMED
+
+# 
+>> beeper -SYSTEM_INIT
+beeper -SYSTEM_INIT
+Disabled SYSTEM_INIT
+
+# 
+>> beeper -ON_USB
+beeper -ON_USB
+Disabled ON_USB
+
+# 
+>> beeper -BLACKBOX_ERASE
+beeper -BLACKBOX_ERASE
+Disabled BLACKBOX_ERASE
+
+# 
+>> beeper -CRASH_FLIP
+beeper -CRASH_FLIP
+Disabled CRASH_FLIP
+
+# 
+>> beeper -CAM_CONNECTION_OPEN
+beeper -CAM_CONNECTION_OPEN
+Disabled CAM_CONNECTION_OPEN
+
+# 
+>> beeper -CAM_CONNECTION_CLOSE
+beeper -CAM_CONNECTION_CLOSE
+Disabled CAM_CONNECTION_CLOSE
+
+# 
+>> beeper -RC_SMOOTHING_INIT_FAIL
+beeper -RC_SMOOTHING_INIT_FAIL
+Disabled RC_SMOOTHING_INIT_FAIL
+
+# 
+>> beacon RX_SET
+beacon RX_SET
+Enabled RX_SET
+
+# 
+>> map TAER1234
+map TAER1234
+map TAER1234
+
+# 
+>> serial 1 2048 115200 57600 0 115200
+serial 1 2048 115200 57600 0 115200
+serial 1 2048 115200 57600 0 115200
+
+# 
+>> aux 0 0 2 1700 2100 0 0
+aux 0 0 2 1700 2100 0 0
+aux 0 0 2 1700 2100 0 0
+
+# 
+>> aux 1 1 0 900 1300 0 0
+aux 1 1 0 900 1300 0 0
+aux 1 1 0 900 1300 0 0
+
+# 
+>> aux 2 2 0 1300 1700 0 0
+aux 2 2 0 1300 1700 0 0
+aux 2 2 0 1300 1700 0 0
+
+# 
+>> aux 3 13 1 1700 2100 0 0
+aux 3 13 1 1700 2100 0 0
+aux 3 13 1 1700 2100 0 0
+
+# 
+>> aux 4 35 3 1700 2100 0 0
+aux 4 35 3 1700 2100 0 0
+aux 4 35 3 1700 2100 0 0
+
+# 
+>> vtxtable bands 5
+vtxtable bands 5
+
+# 
+>> vtxtable channels 8
+vtxtable channels 8
+
+# 
+>> vtxtable band 1 BOSCAM_A A FACTORY 5865 5845 5825 5805 5785 5765 5745 5725
+vtxtable band 1 BOSCAM_A A FACTORY 5865 5845 5825 5805 5785 5765 5745 5725
+
+# 
+>> vtxtable band 2 BOSCAM_B B FACTORY 5733 5752 5771 5790 5809 5828 5847 5866
+vtxtable band 2 BOSCAM_B B FACTORY 5733 5752 5771 5790 5809 5828 5847 5866
+
+# 
+>> vtxtable band 3 BOSCAM_E E FACTORY 5705 5685 5665 5645 5885 5905 5925 5945
+vtxtable band 3 BOSCAM_E E FACTORY 5705 5685 5665 5645 5885 5905 5925 5945
+
+# 
+>> vtxtable band 4 FATSHARK F FACTORY 5740 5760 5780 5800 5820 5840 5860 5880
+vtxtable band 4 FATSHARK F FACTORY 5740 5760 5780 5800 5820 5840 5860 5880
+
+# 
+>> vtxtable band 5 RACEBAND R FACTORY 5658 5695 5732 5769 5806 5843 5880 5917
+vtxtable band 5 RACEBAND R FACTORY 5658 5695 5732 5769 5806 5843 5880 5917
+
+# 
+>> vtxtable powerlevels 3
+vtxtable powerlevels 3
+
+# 
+>> vtxtable powervalues 1 2 3
+vtxtable powervalues 1 2 3
+
+# 
+>> vtxtable powerlabels 25 100 200
+vtxtable powerlabels 25 100 200
+
+# 
+>> set gyro_lowpass2_hz = 300
+set gyro_lowpass2_hz = 300
+gyro_lowpass2_hz set to 300
+# 
+>> set dyn_notch_width_percent = 10
+set dyn_notch_width_percent = 10
+dyn_notch_width_percent set to 10
+# 
+>> set dyn_lpf_gyro_min_hz = 240
+set dyn_lpf_gyro_min_hz = 240
+dyn_lpf_gyro_min_hz set to 240
+# 
+>> set dyn_lpf_gyro_max_hz = 610
+set dyn_lpf_gyro_max_hz = 610
+dyn_lpf_gyro_max_hz set to 610
+# 
+>> set acc_trim_pitch = 12
+set acc_trim_pitch = 12
+acc_trim_pitch set to 12
+# 
+>> set acc_trim_roll = 4
+set acc_trim_roll = 4
+acc_trim_roll set to 4
+# 
+>> set acc_calibration = -85,68,2,1
+set acc_calibration = -85,68,2,1
+acc_calibration set to -85,68,2,1
+# 
+>> set mag_hardware = NONE
+set mag_hardware = NONE
+mag_hardware set to NONE
+# 
+>> set baro_hardware = NONE
+set baro_hardware = NONE
+baro_hardware set to NONE
+# 
+>> set rx_spi_protocol = FRSKY_D
+set rx_spi_protocol = FRSKY_D
+rx_spi_protocol set to FRSKY_D
+# 
+>> set dshot_idle_value = 645
+set dshot_idle_value = 645
+dshot_idle_value set to 645
+# 
+>> set motor_pwm_protocol = DSHOT600
+set motor_pwm_protocol = DSHOT600
+motor_pwm_protocol set to DSHOT600
+# 
+>> set motor_poles = 12
+set motor_poles = 12
+motor_poles set to 12
+# 
+>> set vbat_max_cell_voltage = 440
+set vbat_max_cell_voltage = 440
+vbat_max_cell_voltage set to 440
+# 
+>> set vbat_min_cell_voltage = 320
+set vbat_min_cell_voltage = 320
+vbat_min_cell_voltage set to 320
+# 
+>> set vbat_warning_cell_voltage = 330
+set vbat_warning_cell_voltage = 330
+vbat_warning_cell_voltage set to 330
+# 
+>> set small_angle = 60
+set small_angle = 60
+small_angle set to 60
+# 
+>> set ledstrip_visual_beeper_color = ORANGE
+set ledstrip_visual_beeper_color = ORANGE
+ledstrip_visual_beeper_color set to ORANGE
+# 
+>> set osd_warn_visual_beeper = OFF
+set osd_warn_visual_beeper = OFF
+osd_warn_visual_beeper set to OFF
+# 
+>> set osd_warn_core_temp = OFF
+set osd_warn_core_temp = OFF
+osd_warn_core_temp set to OFF
+# 
+>> set osd_warn_rc_smoothing = OFF
+set osd_warn_rc_smoothing = OFF
+osd_warn_rc_smoothing set to OFF
+# 
+>> set osd_warn_no_gps_rescue = OFF
+set osd_warn_no_gps_rescue = OFF
+osd_warn_no_gps_rescue set to OFF
+# 
+>> set osd_warn_gps_rescue_disabled = OFF
+set osd_warn_gps_rescue_disabled = OFF
+osd_warn_gps_rescue_disabled set to OFF
+# 
+>> set osd_vbat_pos = 2412
+set osd_vbat_pos = 2412
+osd_vbat_pos set to 2412
+# 
+>> set osd_rssi_pos = 2137
+set osd_rssi_pos = 2137
+osd_rssi_pos set to 2137
+# 
+>> set osd_tim_2_pos = 2422
+set osd_tim_2_pos = 2422
+osd_tim_2_pos set to 2422
+# 
+>> set osd_flymode_pos = 2114
+set osd_flymode_pos = 2114
+osd_flymode_pos set to 2114
+# 
+>> set osd_vtx_channel_pos = 2401
+set osd_vtx_channel_pos = 2401
+osd_vtx_channel_pos set to 2401
+# 
+>> set osd_craft_name_pos = 2090
+set osd_craft_name_pos = 2090
+osd_craft_name_pos set to 2090
+# 
+>> set osd_warnings_pos = 297
+set osd_warnings_pos = 297
+osd_warnings_pos set to 297
+# 
+>> set osd_pid_profile_name_pos = 2104
+set osd_pid_profile_name_pos = 2104
+osd_pid_profile_name_pos set to 2104
+# 
+>> set osd_stat_max_spd = OFF
+set osd_stat_max_spd = OFF
+osd_stat_max_spd set to OFF
+# 
+>> set osd_stat_endbatt = ON
+set osd_stat_endbatt = ON
+osd_stat_endbatt set to ON
+# 
+>> set osd_stat_battery = ON
+set osd_stat_battery = ON
+osd_stat_battery set to ON
+# 
+>> set osd_stat_max_curr = OFF
+set osd_stat_max_curr = OFF
+osd_stat_max_curr set to OFF
+# 
+>> set osd_stat_used_mah = OFF
+set osd_stat_used_mah = OFF
+osd_stat_used_mah set to OFF
+# 
+>> set osd_stat_bbox = OFF
+set osd_stat_bbox = OFF
+osd_stat_bbox set to OFF
+# 
+>> set osd_stat_bb_no = OFF
+set osd_stat_bb_no = OFF
+osd_stat_bb_no set to OFF
+# 
+>> set vtx_band = 5
+set vtx_band = 5
+vtx_band set to 5
+# 
+>> set vtx_channel = 4
+set vtx_channel = 4
+vtx_channel set to 4
+# 
+>> set vtx_power = 1
+set vtx_power = 1
+vtx_power set to 1
+# 
+>> set vtx_low_power_disarm = UNTIL_FIRST_ARM
+set vtx_low_power_disarm = UNTIL_FIRST_ARM
+vtx_low_power_disarm set to UNTIL_FIRST_ARM
+# 
+>> set vtx_freq = 5769
+set vtx_freq = 5769
+vtx_freq set to 5769
+# 
+>> set vcd_video_system = NTSC
+set vcd_video_system = NTSC
+vcd_video_system set to NTSC
+# 
+>> set frsky_spi_tx_id = 66,178
+set frsky_spi_tx_id = 66,178
+frsky_spi_tx_id set to 66,178
+# 
+>> set frsky_spi_offset = -32
+set frsky_spi_offset = -32
+frsky_spi_offset set to -32
+# 
+>> set frsky_spi_bind_hop_data = 0,57,112,167,222,21,76,131,186,241,40,95,150,205,4,59,114,169,224,23,78,133,188,243,42,97,152,207,6,61,116,171,226,25,80,135,190,245,44,99,154,209,8,63,118,173,228,0,0,0
+set frsky_spi_bind_hop_data = 0,57,112,167,222,21,76,131,186,241,40,95,150,205,4,59,114,169,224,23,78,133,188,243,42,97,152,207,6,61,116,171,226,25,80,135,190,245,44,99,154,209,8,63,118,173,228,0,0,0
+frsky_spi_bind_hop_data set to 0,57,112,167,222,21,76,131,186,241,40,95,150,205,4,59,114,169,224,23,78,133,188,243,42,97,152,207,6,61,116,171,226,25,80,135,190,245,44,99,154,209,8,63,118,173,228,0,0,0
+# 
+>> set gyro_1_align_yaw = 1800
+set gyro_1_align_yaw = 1800
+gyro_1_align_yaw set to 1800
+# 
+>> set name = Tinyhawk3
+set name = Tinyhawk3
+name set to Tinyhawk3
+# 
+>> profile 0
+profile 0
+profile 0
+
+# 
+>> set dyn_lpf_dterm_min_hz = 83
+set dyn_lpf_dterm_min_hz = 83
+dyn_lpf_dterm_min_hz set to 83
+# 
+>> set dyn_lpf_dterm_max_hz = 204
+set dyn_lpf_dterm_max_hz = 204
+dyn_lpf_dterm_max_hz set to 204
+# 
+>> set dterm_lowpass2_hz = 180
+set dterm_lowpass2_hz = 180
+dterm_lowpass2_hz set to 180
+# 
+>> set vbat_pid_gain = ON
+set vbat_pid_gain = ON
+vbat_pid_gain set to ON
+# 
+>> set p_pitch = 102
+set p_pitch = 102
+p_pitch set to 102
+# 
+>> set i_pitch = 41
+set i_pitch = 41
+i_pitch set to 41
+# 
+>> set d_pitch = 31
+set d_pitch = 31
+d_pitch set to 31
+# 
+>> set p_roll = 90
+set p_roll = 90
+p_roll set to 90
+# 
+>> set i_roll = 47
+set i_roll = 47
+i_roll set to 47
+# 
+>> set d_roll = 31
+set d_roll = 31
+d_roll set to 31
+# 
+>> set p_yaw = 180
+set p_yaw = 180
+p_yaw set to 180
+# 
+>> set i_yaw = 45
+set i_yaw = 45
+i_yaw set to 45
+# 
+>> set d_yaw = 10
+set d_yaw = 10
+d_yaw set to 10
+# 
+>> set f_yaw = 99
+set f_yaw = 99
+f_yaw set to 99
+# 
+>> set horizon_level_strength = 25
+set horizon_level_strength = 25
+horizon_level_strength set to 25
+# 
+>> set horizon_transition = 85
+set horizon_transition = 85
+horizon_transition set to 85
+# 
+>> set d_min_roll = 0
+set d_min_roll = 0
+d_min_roll set to 0
+# 
+>> set d_min_pitch = 0
+set d_min_pitch = 0
+d_min_pitch set to 0
+# 
+>> profile 1
+profile 1
+profile 1
+
+# 
+>> profile 2
+profile 2
+profile 2
+
+# 
+>> profile 0
+profile 0
+profile 0
+
+# 
+>> rateprofile 0
+rateprofile 0
+rateprofile 0
+
+# 
+>> set thr_mid = 0
+set thr_mid = 0
+thr_mid set to 0
+# 
+>> set thr_expo = 100
+set thr_expo = 100
+thr_expo set to 100
+# 
+>> set roll_rc_rate = 90
+set roll_rc_rate = 90
+roll_rc_rate set to 90
+# 
+>> set pitch_rc_rate = 90
+set pitch_rc_rate = 90
+pitch_rc_rate set to 90
+# 
+>> set yaw_rc_rate = 90
+set yaw_rc_rate = 90
+yaw_rc_rate set to 90
+# 
+>> set roll_expo = 10
+set roll_expo = 10
+roll_expo set to 10
+# 
+>> set pitch_expo = 10
+set pitch_expo = 10
+pitch_expo set to 10
+# 
+>> set yaw_expo = 10
+set yaw_expo = 10
+yaw_expo set to 10
+# 
+>> rateprofile 1
+rateprofile 1
+rateprofile 1
+
+# 
+>> set thr_mid = 0
+set thr_mid = 0
+thr_mid set to 0
+# 
+>> set thr_expo = 50
+set thr_expo = 50
+thr_expo set to 50
+# 
+>> set roll_rc_rate = 80
+set roll_rc_rate = 80
+roll_rc_rate set to 80
+# 
+>> set pitch_rc_rate = 80
+set pitch_rc_rate = 80
+pitch_rc_rate set to 80
+# 
+>> set yaw_rc_rate = 80
+set yaw_rc_rate = 80
+yaw_rc_rate set to 80
+# 
+>> set roll_expo = 40
+set roll_expo = 40
+roll_expo set to 40
+# 
+>> set pitch_expo = 40
+set pitch_expo = 40
+pitch_expo set to 40
+# 
+>> set yaw_expo = 40
+set yaw_expo = 40
+yaw_expo set to 40
+# 
+>> set roll_srate = 65
+set roll_srate = 65
+roll_srate set to 65
+# 
+>> set pitch_srate = 65
+set pitch_srate = 65
+pitch_srate set to 65
+# 
+>> set yaw_srate = 67
+set yaw_srate = 67
+yaw_srate set to 67
+# 
+>> rateprofile 2
+rateprofile 2
+rateprofile 2
+
+# 
+>> rateprofile 3
+rateprofile 3
+rateprofile 3
+
+# 
+>> rateprofile 4
+rateprofile 4
+rateprofile 4
+
+# 
+>> rateprofile 5
+rateprofile 5
+rateprofile 5
+
+# 
+>> rateprofile 0
+rateprofile 0
+rateprofile 0
+
+# 
+Traceback (most recent call last):
+  File "<stdin>", line 12, in <module>
+  File "/Users/1unoe/Developer/personal/auto-drone/stage4/results/restore/cli.py", line 17, in cmd
+    os.write(fd,(c+'\n').encode()); return rd(fd,t)
+                                           ~~^^^^^^
+  File "/Users/1unoe/Developer/personal/auto-drone/stage4/results/restore/cli.py", line 13, in rd
+    try: out+=os.read(fd,4096); end=time.time()+t
+              ~~~~~~~^^^^^^^^^
+OSError: [Errno 6] Device not configured

@@ -1,0 +1,4 @@
+21 packets found, 1 CRC ok (standard)
+   time_s  crc  cfo_Hz    tx_id  b3  b4  ch1..ch8 (raw 12-bit)
+  16.0204  ok*   -1511  82,178   0  51  3639 2250 2266 3030 1470 1470 1470 1470
+ok* = one bit repaired by --fix1
